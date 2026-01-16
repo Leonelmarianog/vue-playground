@@ -16,7 +16,9 @@ const App = {
         
             <template v-slot:default>
                 <Board>
-                    <List v-for="list in lists" :id="list.id" :title="list.title" :cards="list.cards" @create-card="handleCreateCard"/>
+                    <template v-slot:default>
+                        <List v-for="list in lists" :id="list.id" :title="list.title" :cards="list.cards" @create-card="handleCreateCard"/>
+                    </template>
                 </Board>
             </template>
         </Layout>
