@@ -1,10 +1,11 @@
 import lists from '../../data/db.js';
 import List from "./List.js";
 import Layout from "./Layout.js";
+import Board from "./Board.js";
 
 const App = {
     components: {
-        Layout, List,
+        Layout, List, Board
     },
 
     template: `
@@ -14,13 +15,9 @@ const App = {
             </template>
         
             <template v-slot:default>
-                <div id="board" class="grid auto-cols-[20em] grid-flow-col gap-2 items-start h-full">
+                <Board>
                     <List v-for="list in lists" :id="list.id" :title="list.title" :cards="list.cards" @create-card="handleCreateCard"/>
-                    
-                    <button class="bg-black/20 py-4 rounded-md shadow-sm cursor-pointer hover:bg-black/10 font-bold text-sm text-black">
-                        + Add another list
-                    </button>
-                </div>
+                </Board>
             </template>
         </Layout>
     `,
