@@ -2,7 +2,12 @@ const CardCreateForm = {
     template: `
         <div class="bg-neutral-100 rounded-sm px-2 pb-2 pt-2 shadow-sm space-y-2">
             <form @submit.prevent="handleSubmit()">
-                <textarea name="content" v-model="content" class="px-2 py-1 w-full" />
+                <textarea 
+                    name="content" 
+                    v-model="content" 
+                    class="px-2 py-1 w-full" 
+                    ref="textArea"
+                />
                 
                 <div class="flex gap-2 text-sm">
                     <button 
@@ -22,6 +27,10 @@ const CardCreateForm = {
             </form>
         </div>
     `,
+
+    mounted() {
+        this.$refs.textArea.focus();
+    },
 
     data() {
         return {

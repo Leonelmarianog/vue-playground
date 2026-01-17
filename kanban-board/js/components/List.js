@@ -17,7 +17,7 @@ const List = {
                      </li>
                      
                      <li>
-                        <CardCreateForm  v-show="isCardCreateFormVisible" @close="handleCloseCardCreateForm" @create-card="handleCreateCard"/>
+                        <CardCreateForm  v-if="isCardCreateFormVisible" @close="handleCloseCardCreateForm" @create-card="handleCreateCard"/>
                     </li>    
                  </ul>
     
