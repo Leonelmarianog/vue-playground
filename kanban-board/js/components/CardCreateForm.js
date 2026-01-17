@@ -7,6 +7,7 @@ const CardCreateForm = {
                     v-model="content" 
                     class="px-2 py-1 w-full" 
                     ref="textArea"
+                    placeholder="Enter a title for this card..."
                 />
                 
                 <div class="flex gap-2 text-sm">
