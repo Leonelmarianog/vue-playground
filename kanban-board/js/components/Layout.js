@@ -11,7 +11,7 @@ const Layout = {
                 </div>
             </main>
             
-            <div v-if="isOverlayVisible" class="bg-black/70 absolute inset-0 z-1"></div>
+            <div v-if="isOverlayVisible" class="bg-black/50 absolute inset-0 z-1"></div>
         </div>
     `,
 
