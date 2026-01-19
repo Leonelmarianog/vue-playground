@@ -1,8 +1,10 @@
 <script lang="ts">
+import { defineComponent } from 'vue';
+import type { PropType } from 'vue';
 import CardLabel from './CardLabel.vue';
 import CardUpdateForm from './CardUpdateForm.vue';
 
-export default {
+export default defineComponent({
   components: { CardLabel, CardUpdateForm },
 
   inject: ['toggleLayoutOverlay'],
@@ -14,28 +16,37 @@ export default {
   },
 
   props: {
-    id: Number,
-    content: String,
-    labels: Array,
+    id: {
+      type: Number,
+      required: true,
+    },
+    content: {
+      type: String,
+      default: '',
+    },
+    labels: {
+      type: Array as PropType<{ name: string; color: string }[]>,
+      default: () => [],
+    },
   },
 
   methods: {
     handleOpenCardUpdateForm() {
       this.isCardUpdateFormVisible = true;
-      this.toggleLayoutOverlay();
+      (this as { toggleLayoutOverlay: () => void }).toggleLayoutOverlay();
     },
 
     handleCloseCardUpdateForm() {
       this.isCardUpdateFormVisible = false;
-      this.toggleLayoutOverlay();
+      (this as { toggleLayoutOverlay: () => void }).toggleLayoutOverlay();
     },
 
-    handleUpdateCard(formData) {
+    handleUpdateCard(formData: { content: string }) {
       this.$emit('update-card', { ...formData, cardId: this.id });
       this.handleCloseCardUpdateForm();
     },
   },
-};
+});
 </script>
 
 <template>
@@ -46,7 +57,7 @@ export default {
     }"
   >
     <ul class="flex flex-wrap gap-x-1">
-      <li v-for="label in labels" :key="label.id">
+      <li v-for="label in labels" :key="label.name + '_' + new Date().getTime()">
         <CardLabel :name="label.name" :color="label.color" />
       </li>
     </ul>
