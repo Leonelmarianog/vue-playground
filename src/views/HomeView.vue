@@ -1,11 +1,11 @@
 <script lang="ts">
-import lists from '@/../data/db.js';
-
+import { defineComponent } from 'vue';
+import listsData from '@/../data/db.js';
 import BoardList from '@/components/BoardList.vue';
 import PageLayout from '@/components/PageLayout.vue';
 import BoardContainer from '@/components/BoardContainer.vue';
 
-export default {
+export default defineComponent({
   components: {
     PageLayout,
     BoardList,
@@ -14,30 +14,35 @@ export default {
 
   data() {
     return {
-      lists,
+      lists: listsData,
     };
   },
 
   methods: {
-    handleCreateCard(formData) {
+    handleCreateCard(formData: { listId: number; content: string }): void {
       const list = this.lists.find((list) => list.id === formData.listId);
 
-      list.cards.push({
-        id: new Date().getTime(),
-        content: formData.content,
-        labels: [],
-      });
+      if (list) {
+        list.cards.push({
+          id: new Date().getTime(),
+          content: formData.content,
+          labels: [],
+        });
+      }
     },
 
-    handleUpdateCard(formData) {
+    handleUpdateCard(formData: { listId: number; cardId: number; content: string }): void {
       const list = this.lists.find((list) => list.id === formData.listId);
 
-      const card = list.cards.find((card) => card.id === formData.cardId);
-
-      Object.assign(card, { content: formData.content });
+      if (list) {
+        const card = list.cards.find((card) => card.id === formData.cardId);
+        if (card) {
+          Object.assign(card, { content: formData.content });
+        }
+      }
     },
   },
-};
+});
 </script>
 
 <template>

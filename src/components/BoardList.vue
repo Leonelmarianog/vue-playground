@@ -1,8 +1,10 @@
 <script lang="ts">
+import { defineComponent } from 'vue';
+import type { PropType } from 'vue';
 import BoardCard from './BoardCard.vue';
 import CardCreateForm from './CardCreateForm.vue';
 
-export default {
+export default defineComponent({
   components: { BoardCard, CardCreateForm },
 
   data() {
@@ -14,7 +16,7 @@ export default {
   props: {
     id: Number,
     title: String,
-    cards: Array,
+    cards: Array as PropType<{ id: number; content: string; labels: [] }[]>,
   },
 
   methods: {
@@ -26,16 +28,16 @@ export default {
       this.isCardCreateFormVisible = false;
     },
 
-    handleCreateCard(formData) {
+    handleCreateCard(formData: { listId: number }) {
       this.$emit('create-card', { ...formData, listId: this.id });
       this.handleCloseCardCreateForm();
     },
 
-    handleUpdateCard(formData) {
+    handleUpdateCard(formData: { listId: number }) {
       this.$emit('update-card', { ...formData, listId: this.id });
     },
   },
-};
+});
 </script>
 
 <template>

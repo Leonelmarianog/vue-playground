@@ -1,5 +1,7 @@
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   data() {
     return {
       content: '',
@@ -7,7 +9,7 @@ export default {
   },
 
   mounted() {
-    this.$refs.textArea.focus();
+    (this.$refs.textArea as HTMLTextAreaElement).focus();
   },
 
   methods: {
@@ -21,7 +23,7 @@ export default {
       this.$emit('close');
     },
   },
-};
+});
 </script>
 
 <template>

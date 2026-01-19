@@ -1,5 +1,7 @@
 <script lang="ts">
-export default {
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   data() {
     return {
       isOverlayVisible: false,
@@ -17,7 +19,7 @@ export default {
       toggleLayoutOverlay: this.toggleOverlay,
     };
   },
-};
+});
 </script>
 
 <template>
