@@ -90,7 +90,7 @@ jobs:
         run: npm run build
 
       - name: Start application and run E2E tests
-        run: npm run test:e2e:serve
+        run: npm run test:e2e
 
       - name: Report Playwright Results
         if: always() # Report results even if tests fail
