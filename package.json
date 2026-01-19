@@ -17,7 +17,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/",
+    "format": "prettier --write \"**/*.{js,ts,mts,tsx,vue,json,md,html,css,scss}\"",
     "format:check": "prettier --check \"**/*.{js,ts,mts,tsx,vue,json,md,html,css,scss}\"",
     "prepare": "husky"
   },
