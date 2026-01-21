@@ -2,10 +2,10 @@
 import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import BoardCard from './BoardCard.vue';
-import CardSaveForm from '@/components/CardSaveForm.vue';
+import CardForm from '@/components/CardForm.vue';
 
 export default defineComponent({
-  components: { CardSaveForm, BoardCard },
+  components: { CardForm, BoardCard },
 
   data() {
     return {
@@ -65,7 +65,7 @@ export default defineComponent({
       + Add another card
     </button>
 
-    <CardSaveForm
+    <CardForm
       v-if="isCardCreateFormVisible"
       @save="handleCreateCard"
       @cancel="handleCloseCardCreateForm"

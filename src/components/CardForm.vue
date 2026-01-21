@@ -1,31 +1,46 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { Field } from 'vee-validate';
-import * as Yup from 'yup';
-import DynamicForm from './DynamicForm.vue';
+import { object, string } from 'yup';
+import DynamicForm from '@/components/DynamicForm.vue';
 import CustomButton from '@/components/CustomButton.vue';
+
+const schema = object({
+  content: string().trim().required('This field is required.').default(''),
+});
 
 export default defineComponent({
   components: { CustomButton, DynamicForm, Field },
 
   emits: ['save', 'cancel'],
 
-  data: () => {
-    const formSchema = Yup.object({
-      content: Yup.string().trim().required('This field is required.'),
-    });
+  props: {
+    initialValues: {
+      type: Object,
+      default: undefined,
+    },
+  },
 
-    return {
-      formSchema,
-    };
+  computed: {
+    schema() {
+      return schema;
+    },
+
+    isEdit() {
+      return !!this.initialValues;
+    },
+
+    formValues() {
+      return this.isEdit ? this.initialValues : undefined;
+    },
   },
 
   methods: {
-    onSubmit(values: Record<string, unknown>) {
+    save(values: Record<string, unknown>) {
       this.$emit('save', values);
     },
 
-    onCancelClick() {
+    cancel() {
       this.$emit('cancel');
     },
   },
@@ -40,7 +55,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <DynamicForm :schema="formSchema" @submit="onSubmit">
+  <DynamicForm :schema="schema" :initial-values="formValues" @submit="save">
     <template #default="{ meta }">
       <div class="space-y-2">
         <div>
@@ -58,7 +73,7 @@ export default defineComponent({
 
         <div class="space-x-2">
           <CustomButton type="submit" variant="sky" :disabled="!meta.valid">Save</CustomButton>
-          <CustomButton type="button" @click="onCancelClick">Cancel</CustomButton>
+          <CustomButton type="button" @click="cancel">Cancel</CustomButton>
         </div>
       </div>
     </template>
