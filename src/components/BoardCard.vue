@@ -2,10 +2,10 @@
 import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import CardLabel from './CardLabel.vue';
-import CardUpdateForm from './CardUpdateForm.vue';
+import CardForm from '@/components/CardForm.vue';
 
 export default defineComponent({
-  components: { CardLabel, CardUpdateForm },
+  components: { CardForm, CardLabel },
 
   inject: ['toggleLayoutOverlay'],
 
@@ -64,11 +64,11 @@ export default defineComponent({
 
     <p v-show="!isCardUpdateFormVisible" class="truncate">{{ content }}</p>
 
-    <CardUpdateForm
+    <CardForm
       v-if="isCardUpdateFormVisible"
-      @close="handleCloseCardUpdateForm"
-      @update-card="handleUpdateCard"
-      :initial-content="content"
+      @cancel="handleCloseCardUpdateForm"
+      @save="handleUpdateCard"
+      :initial-values="{ content }"
     />
 
     <div v-show="isCardUpdateFormVisible" class="absolute top-0 left-[102.5%] z-2">
