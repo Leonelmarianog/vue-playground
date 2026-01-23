@@ -59,7 +59,7 @@ export default defineComponent({
     <template #default="{ meta }">
       <div class="space-y-2">
         <div>
-          <div class="p-2 bg-white rounded-sm shadow-md" ref="contentFieldWrapper">
+          <div class="p-2 bg-neutral-100 rounded-sm shadow-md" ref="contentFieldWrapper">
             <Field
               as="textarea"
               type="textarea"
