@@ -6,6 +6,7 @@ const BASE_STYLE = 'cursor-pointer disabled:cursor-not-allowed rounded-sm py-2 p
 const VARIANTS = {
   default: 'bg-neutral-500 hover:bg-neutral-400 disabled:bg-neutral-400 text-white',
   sky: 'bg-sky-500 hover:bg-sky-400 disabled:bg-sky-400 text-white',
+  transparent: 'bg-black/60 hover:bg-black/80 text-white',
 };
 
 export default defineComponent({
