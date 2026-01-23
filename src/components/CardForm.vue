@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, type PropType } from 'vue';
 import { Field } from 'vee-validate';
 import { object, string } from 'yup';
 import DynamicForm from '@/components/DynamicForm.vue';
@@ -16,8 +16,8 @@ export default defineComponent({
 
   props: {
     initialValues: {
-      type: Object,
-      default: undefined,
+      type: Object as PropType<Record<string, unknown> | null>,
+      default: null,
     },
   },
 
@@ -31,7 +31,7 @@ export default defineComponent({
     },
 
     formValues() {
-      return this.isEdit ? this.initialValues : undefined;
+      return this.isEdit ? this.initialValues : null;
     },
   },
 
