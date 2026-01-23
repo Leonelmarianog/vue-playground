@@ -2,17 +2,9 @@
 import { defineComponent } from 'vue';
 import type { PropType } from 'vue';
 import CardLabel from './CardLabel.vue';
-import CardForm from '@/components/CardForm.vue';
-import FocusOverlay from '@/components/FocusOverlay.vue';
 
 export default defineComponent({
-  components: { FocusOverlay, CardForm, CardLabel },
-
-  data() {
-    return {
-      isCardUpdateFormVisible: false,
-    };
-  },
+  components: { CardLabel },
 
   props: {
     id: {
@@ -30,17 +22,12 @@ export default defineComponent({
   },
 
   methods: {
-    handleOpenCardUpdateForm() {
-      this.isCardUpdateFormVisible = true;
-    },
-
-    handleCloseCardUpdateForm() {
-      this.isCardUpdateFormVisible = false;
-    },
-
-    handleUpdateCard(formData: { content: string }) {
-      this.$emit('update-card', { ...formData, cardId: this.id });
-      this.handleCloseCardUpdateForm();
+    edit() {
+      this.$emit(
+        'edit',
+        { cardId: this.id, content: this.content },
+        this.$el.getBoundingClientRect(),
+      );
     },
   },
 });
@@ -54,41 +41,11 @@ export default defineComponent({
       </li>
     </ul>
 
-    <p v-show="!isCardUpdateFormVisible" class="truncate">{{ content }}</p>
-
-    <FocusOverlay v-if="isCardUpdateFormVisible">
-      <div class="relative">
-        <CardForm
-          @cancel="handleCloseCardUpdateForm"
-          @save="handleUpdateCard"
-          :initial-values="{ content }"
-        />
-
-        <div class="absolute top-0 -right-27">
-          <ul class="space-y-1">
-            <li>
-              <button
-                class="bg-black/70 py-2 px-4 rounded-sm cursor-pointer hover:bg-black/90 font-bold text-sm text-white text-nowrap"
-              >
-                Open card
-              </button>
-            </li>
-            <li>
-              <button
-                class="bg-black/70 py-2 px-4 rounded-sm cursor-pointer hover:bg-black/90 font-bold text-sm text-white text-nowrap"
-              >
-                Edit labels
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </FocusOverlay>
+    <p class="truncate">{{ content }}</p>
 
     <button
-      v-show="!isCardUpdateFormVisible"
-      class="bg-neutral-100 text-sm font-bold p-1 rounded-sm cursor-pointer hidden group-hover:block hover:bg-neutral-300 absolute top-[0.2em] right-[0.2em]"
-      @click="handleOpenCardUpdateForm"
+      class="bg-neutral-100 text-sm font-bold p-1 rounded-sm cursor-pointer group-hover:block hover:bg-neutral-300 absolute top-[0.2em] right-[0.2em]"
+      @click="edit"
     >
       <img
         class="w-5 h-5"
