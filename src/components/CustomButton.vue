@@ -7,6 +7,7 @@ const VARIANTS = {
   default: 'bg-neutral-500 hover:bg-neutral-400 disabled:bg-neutral-400 text-white',
   sky: 'bg-sky-500 hover:bg-sky-400 disabled:bg-sky-400 text-white',
   transparent: 'bg-black/60 hover:bg-black/80 text-white',
+  clear: 'bg-black/0 hover:bg-black/20',
 };
 
 export default defineComponent({
@@ -17,12 +18,17 @@ export default defineComponent({
       type: String,
       default: 'default',
     },
+    fullWidth: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
     classes() {
       const variant = VARIANTS[this.variant as keyof typeof VARIANTS];
-      return [BASE_STYLE, variant];
+      const width = this.fullWidth ? 'w-full' : '';
+      return [BASE_STYLE, width, variant];
     },
   },
 

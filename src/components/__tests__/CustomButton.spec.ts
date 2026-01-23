@@ -54,6 +54,26 @@ describe('CustomButton.vue', () => {
         expect(button.attributes('class')).toContain('bg-sky-500');
       });
     });
+
+    describe('fullWidth', () => {
+      it('makes button not span the full width of its parent when not provided', () => {
+        const wrapper = mount(CustomButton);
+        const button = wrapper.find('button');
+
+        expect(button.attributes('class')).not.toContain('w-full');
+      });
+
+      it('makes button span the full width of its parent when provided', () => {
+        const wrapper = mount(CustomButton, {
+          props: {
+            fullWidth: true,
+          },
+        });
+        const button = wrapper.find('button');
+
+        expect(button.attributes('class')).toContain('w-full');
+      });
+    });
   });
 
   describe('Events', () => {
