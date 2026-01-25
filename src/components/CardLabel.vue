@@ -1,12 +1,8 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  props: {
-    name: String,
-    color: String,
-  },
-});
+<script setup lang="ts">
+defineProps<{
+  name?: string;
+  color?: string;
+}>();
 </script>
 
 <template>

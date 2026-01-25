@@ -1,29 +1,28 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
 import { Form as VeeForm } from 'vee-validate';
+import type { AnyObjectSchema } from 'yup';
 
-export default defineComponent({
-  components: { VeeForm },
+defineProps<{
+  schema?: AnyObjectSchema;
+  initialValues?: Record<string, unknown> | null;
+}>();
 
-  emits: ['submit'],
+const emit = defineEmits<{
+  (e: 'submit', values: Record<string, unknown>): void;
+}>();
 
-  props: {
-    schema: {
-      type: Object,
-      default: undefined,
-    },
-  },
-
-  methods: {
-    onSubmit(values: Record<string, unknown>) {
-      this.$emit('submit', values);
-    },
-  },
-});
+const onSubmit = (values: Record<string, unknown>) => {
+  emit('submit', values as Record<string, unknown>);
+};
 </script>
 
 <template>
-  <VeeForm :validation-schema="schema" @submit="onSubmit" v-slot="{ errors, values, meta }">
+  <VeeForm
+    :validation-schema="schema"
+    :initial-values="initialValues || undefined"
+    @submit="onSubmit"
+    v-slot="{ errors, values, meta }"
+  >
     <slot :errors="errors" :values="values" :meta="meta" />
   </VeeForm>
 </template>
