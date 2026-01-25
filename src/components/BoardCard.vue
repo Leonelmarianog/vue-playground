@@ -1,40 +1,34 @@
-<script lang="ts">
-import { defineComponent } from 'vue';
-import type { PropType } from 'vue';
+<script setup lang="ts">
+import { useTemplateRef } from 'vue';
 import CardLabel from './CardLabel.vue';
 
-export default defineComponent({
-  components: { CardLabel },
-
-  props: {
-    id: {
-      type: Number,
-      required: true,
-    },
-    content: {
-      type: String,
-      default: '',
-    },
-    labels: {
-      type: Array as PropType<{ name: string; color: string }[]>,
-      default: () => [],
-    },
+const props = withDefaults(
+  defineProps<{
+    id: number;
+    content?: string;
+    labels?: { name: string; color: string }[];
+  }>(),
+  {
+    content: '',
+    labels: () => [],
   },
+);
 
-  methods: {
-    edit() {
-      this.$emit(
-        'edit',
-        { cardId: this.id, content: this.content },
-        this.$el.getBoundingClientRect(),
-      );
-    },
-  },
-});
+const emit = defineEmits<{
+  (e: 'edit', payload: { cardId: number; content: string }, rect: DOMRect): void;
+}>();
+
+const root = useTemplateRef<HTMLElement>('root');
+
+const edit = () => {
+  if (root.value) {
+    emit('edit', { cardId: props.id, content: props.content }, root.value.getBoundingClientRect());
+  }
+};
 </script>
 
 <template>
-  <div class="bg-neutral-100 rounded-sm shadow-sm px-2 py-1 space-y-1 group relative">
+  <div ref="root" class="bg-neutral-100 rounded-sm shadow-sm px-2 py-1 space-y-1 group relative">
     <ul class="flex flex-wrap gap-x-1">
       <li v-for="label in labels" :key="label.name + '_' + new Date().getTime()">
         <CardLabel :name="label.name" :color="label.color" />
