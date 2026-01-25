@@ -5,6 +5,7 @@ export interface Label {
 
 export interface Card {
   id: number;
+  listId: number;
   content: string;
   labels: Label[];
 }
