@@ -1,33 +1,28 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import listsData from '@/../data/db.js';
 import BoardList from '@/components/BoardList.vue';
 import PageLayout from '@/components/PageLayout.vue';
 import BoardContainer from '@/components/BoardContainer.vue';
+import { useCardStore } from '@/stores/card';
+import { useListStore } from '@/stores/list';
 
-const lists = ref(listsData);
+const cardStore = useCardStore();
+const listStore = useListStore();
 
 const handleCreateCard = (formData: Record<string, unknown>): void => {
-  const list = lists.value.find((list) => list.id === formData.listId);
-
-  if (list) {
-    list.cards.push({
-      id: new Date().getTime(),
-      content: formData.content as string,
-      labels: [],
-    });
-  }
+  cardStore.storeCard({
+    id: new Date().getTime(),
+    listId: formData.listId as number,
+    content: formData.content as string,
+    labels: [],
+  });
 };
 
 const handleUpdateCard = (formData: Record<string, unknown>): void => {
-  const list = lists.value.find((list) => list.id === formData.listId);
-
-  if (list) {
-    const card = list.cards.find((card) => card.id === formData.cardId);
-    if (card) {
-      Object.assign(card, { content: formData.content as string });
-    }
-  }
+  cardStore.updateCard({
+    id: formData.cardId as number,
+    listId: formData.listId as number,
+    content: formData.content as string,
+  });
 };
 </script>
 
@@ -41,7 +36,7 @@ const handleUpdateCard = (formData: Record<string, unknown>): void => {
       <BoardContainer>
         <template v-slot:default>
           <BoardList
-            v-for="list in lists"
+            v-for="list in listStore.lists"
             :key="list.id"
             :id="list.id"
             :title="list.title"
