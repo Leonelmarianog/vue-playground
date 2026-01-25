@@ -31,7 +31,7 @@ const edit = () => {
   <div ref="root" class="bg-neutral-100 rounded-sm shadow-sm px-2 py-1 space-y-1 group relative">
     <ul class="flex flex-wrap gap-x-1">
       <li v-for="label in labels" :key="label.name + '_' + new Date().getTime()">
-        <CardLabel :name="label.name" :color="label.color" />
+        <CardLabel :label="label" />
       </li>
     </ul>
 
