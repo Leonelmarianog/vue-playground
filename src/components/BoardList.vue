@@ -7,15 +7,13 @@ import CardMenu from '@/components/CardMenu.vue';
 import CustomButton from '@/components/CustomButton.vue';
 import type { Card, List } from '@/types';
 import { useToggle } from '@/composables/useToggle';
+import { useCardStore } from '@/stores/card';
 
 const props = defineProps<{
   list: List;
 }>();
 
-const emit = defineEmits<{
-  (e: 'create-card', payload: Partial<Card>): void;
-  (e: 'update-card', payload: Partial<Card>): void;
-}>();
+const cardStore = useCardStore();
 
 const activeCard = ref<Partial<Card> | null>(null);
 const activeCardRect = ref<DOMRect | null>(null);
@@ -25,6 +23,7 @@ const {
   show: showCardCreateForm,
   hide: hideCardCreateForm,
 } = useToggle();
+
 const {
   isVisible: isCardUpdateFormVisible,
   show: showCardUpdateForm,
@@ -44,12 +43,21 @@ const handleCloseCardUpdateForm = () => {
 };
 
 const handleCreateCard = (formData: Partial<Card>) => {
-  emit('create-card', { ...formData, listId: props.list.id });
+  cardStore.storeCard({
+    id: new Date().getTime(),
+    listId: props.list.id,
+    content: formData.content as string,
+    labels: [],
+  });
   hideCardCreateForm();
 };
 
 const handleUpdateCard = (formData: Partial<Card>) => {
-  emit('update-card', { ...formData, listId: props.list.id });
+  cardStore.updateCard({
+    id: formData.id as number,
+    listId: props.list.id,
+    content: formData.content as string,
+  });
   handleCloseCardUpdateForm();
 };
 
