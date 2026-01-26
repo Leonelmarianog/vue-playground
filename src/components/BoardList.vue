@@ -6,6 +6,7 @@ import FocusOverlay from '@/components/FocusOverlay.vue';
 import CardMenu from '@/components/CardMenu.vue';
 import CustomButton from '@/components/CustomButton.vue';
 import type { Card, List } from '@/types';
+import { useToggle } from '@/composables/useToggle';
 
 const props = defineProps<{
   list: List;
@@ -18,32 +19,33 @@ const emit = defineEmits<{
 
 const activeCard = ref<Partial<Card> | null>(null);
 const activeCardRect = ref<DOMRect | null>(null);
-const isCardCreateFormVisible = ref(false);
-const isCardUpdateFormVisible = ref(false);
 
-const handleOpenCardCreateForm = () => {
-  isCardCreateFormVisible.value = true;
-};
-
-const handleCloseCardCreateForm = () => {
-  isCardCreateFormVisible.value = false;
-};
+const {
+  isVisible: isCardCreateFormVisible,
+  show: showCardCreateForm,
+  hide: hideCardCreateForm,
+} = useToggle();
+const {
+  isVisible: isCardUpdateFormVisible,
+  show: showCardUpdateForm,
+  hide: hideCardUpdateForm,
+} = useToggle();
 
 const handleOpenCardUpdateForm = (card: Partial<Card>, cardRect: DOMRect) => {
   activeCard.value = card;
   activeCardRect.value = cardRect;
-  isCardUpdateFormVisible.value = true;
+  showCardUpdateForm();
 };
 
 const handleCloseCardUpdateForm = () => {
   activeCard.value = null;
   activeCardRect.value = null;
-  isCardUpdateFormVisible.value = false;
+  hideCardUpdateForm();
 };
 
 const handleCreateCard = (formData: Partial<Card>) => {
   emit('create-card', { ...formData, listId: props.list.id });
-  handleCloseCardCreateForm();
+  hideCardCreateForm();
 };
 
 const handleUpdateCard = (formData: Partial<Card>) => {
@@ -87,10 +89,10 @@ const activeCardSize = computed((): CSSProperties | null => {
     <CardForm
       v-if="isCardCreateFormVisible"
       @save="handleCreateCard"
-      @cancel="handleCloseCardCreateForm"
+      @cancel="hideCardCreateForm"
     />
 
-    <CustomButton v-else variant="clear" :fullWidth="true" @click="handleOpenCardCreateForm">
+    <CustomButton v-else variant="clear" :fullWidth="true" @click="showCardCreateForm">
       <span class="text-neutral-500 hover:text-neutral-700 text-sm font-bold text-left block">
         + Add another card
       </span>
