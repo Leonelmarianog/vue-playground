@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import CardForm from '@/components/CardForm.vue';
 import FocusOverlay from '@/components/FocusOverlay.vue';
-import QuickCardEditorMenuButtons from '@/components/QuickCardEditorMenuButtons.vue';
 import { computed, type CSSProperties } from 'vue';
 import type { Card } from '@/types';
-import { useCardStore } from '@/stores/card.ts';
+import QuickCardEditorMenu from '@/components/QuickCardEditorMenu.vue';
 
 const props = defineProps<{
   cardRef: HTMLElement;
@@ -16,28 +14,16 @@ const emit = defineEmits<{
   (e: 'close'): void;
 }>();
 
-const cardStore = useCardStore();
-
-const styles = computed((): CSSProperties => {
+const cardRefBoxStyles = computed((): CSSProperties => {
   const cardRect = props.cardRef.getBoundingClientRect();
 
   return {
     top: `${cardRect.top}px`,
     left: `${cardRect.left}px`,
-    height: `${cardRect.height}px`,
     width: `${cardRect.width}px`,
+    height: `${cardRect.height}px`,
   };
 });
-
-function updateCardAndClose(formData: Partial<Card>) {
-  cardStore.updateCard({
-    id: formData.id as number,
-    listId: props.listId,
-    content: formData.content as string,
-  });
-
-  close();
-}
 
 function close() {
   emit('close');
@@ -48,22 +34,14 @@ function close() {
   <FocusOverlay>
     <div
       class="flex gap-2 absolute"
-      :style="{
-        top: styles.top,
-        left: styles.left,
-      }"
+      :style="{ top: cardRefBoxStyles.top, left: cardRefBoxStyles.left }"
     >
-      <CardForm
-        :style="{
-          height: styles.height,
-          width: styles.width,
-        }"
-        :initial-values="card"
-        @save="updateCardAndClose"
-        @cancel="close"
+      <QuickCardEditorMenu
+        :cardFormStyles="{ width: cardRefBoxStyles.width, height: cardRefBoxStyles.height }"
+        :card="card"
+        :listId="listId"
+        @close="close"
       />
-
-      <QuickCardEditorMenuButtons />
     </div>
   </FocusOverlay>
 </template>
