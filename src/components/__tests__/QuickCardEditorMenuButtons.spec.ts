@@ -1,10 +1,10 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import CardMenu from '@/components/CardMenu.vue';
+import QuickCardEditorMenuButtons from '@/components/QuickCardEditorMenuButtons.vue';
 
-describe('CardMenu.vue', () => {
+describe('QuickCardEditorMenuButtons.vue', () => {
   it('renders correctly', () => {
-    const wrapper = mount(CardMenu);
+    const wrapper = mount(QuickCardEditorMenuButtons);
 
     expect(wrapper.text()).toContain('Open Card');
     expect(wrapper.text()).toContain('Edit labels');

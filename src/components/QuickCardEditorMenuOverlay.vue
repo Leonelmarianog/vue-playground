@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CardForm from '@/components/CardForm.vue';
 import FocusOverlay from '@/components/FocusOverlay.vue';
-import CardMenu from '@/components/CardMenu.vue';
+import QuickCardEditorMenuButtons from '@/components/QuickCardEditorMenuButtons.vue';
 import { computed, type CSSProperties } from 'vue';
 import type { Card } from '@/types';
 import { useCardStore } from '@/stores/card.ts';
@@ -63,7 +63,7 @@ function close() {
         @cancel="close"
       />
 
-      <CardMenu />
+      <QuickCardEditorMenuButtons />
     </div>
   </FocusOverlay>
 </template>
