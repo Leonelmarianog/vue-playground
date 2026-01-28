@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { type CSSProperties, computed, ref } from 'vue';
+import { ref } from 'vue';
 import BoardCard from './BoardCard.vue';
 import CardForm from '@/components/CardForm.vue';
-import FocusOverlay from '@/components/FocusOverlay.vue';
-import CardMenu from '@/components/CardMenu.vue';
 import CustomButton from '@/components/CustomButton.vue';
 import type { Card, List } from '@/types';
 import { useToggle } from '@/composables/useToggle';
 import { useCardStore } from '@/stores/card';
+import QuickCardEditorMenuOverlay from '@/components/QuickCardEditorMenuOverlay.vue';
 
 const props = defineProps<{
   list: List;
@@ -31,19 +30,9 @@ const handleCreateCard = (formData: Partial<Card>) => {
   hideCardCreateForm();
 };
 
-const handleUpdateCard = (formData: Partial<Card>) => {
-  cardStore.updateCard({
-    id: formData.id as number,
-    listId: props.list.id,
-    content: formData.content as string,
-  });
-  hideQuickCardEditorMenu();
-};
-
 const cardRefs = ref<Record<Card['id'], HTMLElement>>({});
 const currentCard = ref<Card | null>(null);
 const currentCardRef = ref<HTMLElement | null>(null);
-const currentCardRect = ref<DOMRect | null>(null);
 
 const {
   isVisible: isQuickCardEditorMenuVisible,
@@ -56,22 +45,8 @@ function openQuickCardEditorMenu(card: Card) {
   const cardRef = cardRefs.value[cardId]!;
   currentCard.value = card;
   currentCardRef.value = cardRef;
-  currentCardRect.value = cardRef.getBoundingClientRect();
   showQuickCardEditorMenu();
 }
-
-const quickCardEditorMenuStyles = computed((): CSSProperties => {
-  if (!currentCardRect.value) {
-    return {};
-  }
-
-  return {
-    top: `${currentCardRect.value.top}px`,
-    left: `${currentCardRect.value.left}px`,
-    height: `${currentCardRect.value.height}px`,
-    width: `${currentCardRect.value.width}px`,
-  };
-});
 </script>
 
 <template>
@@ -100,25 +75,12 @@ const quickCardEditorMenuStyles = computed((): CSSProperties => {
       </span>
     </CustomButton>
 
-    <FocusOverlay v-if="isQuickCardEditorMenuVisible">
-      <div
-        class="flex gap-2 absolute"
-        :style="{
-          top: quickCardEditorMenuStyles.top,
-          left: quickCardEditorMenuStyles.left,
-        }"
-      >
-        <CardForm
-          :style="{
-            height: quickCardEditorMenuStyles.height,
-            width: quickCardEditorMenuStyles.width,
-          }"
-          :initial-values="currentCard"
-          @save="handleUpdateCard"
-          @cancel="hideQuickCardEditorMenu"
-        />
-        <CardMenu />|
-      </div>
-    </FocusOverlay>
+    <QuickCardEditorMenuOverlay
+      v-if="isQuickCardEditorMenuVisible"
+      :cardRef="currentCardRef!"
+      :card="currentCard!"
+      :listId="list.id"
+      @close="hideQuickCardEditorMenu"
+    />
   </div>
 </template>
