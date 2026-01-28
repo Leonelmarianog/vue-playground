@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useTemplateRef } from 'vue';
 import CardLabel from './CardLabel.vue';
 import type { Card } from '@/types';
 
@@ -8,15 +7,11 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'edit', payload: Card, rect: DOMRect): void;
+  (e: 'edit', card: Card): void;
 }>();
 
-const root = useTemplateRef<HTMLElement>('root');
-
 const edit = () => {
-  if (root.value) {
-    emit('edit', props.card, root.value.getBoundingClientRect());
-  }
+  emit('edit', props.card);
 };
 </script>
 
@@ -37,7 +32,7 @@ const edit = () => {
       <img
         class="w-5 h-5"
         src="https://unpkg.com/lucide-static@latest/icons/pencil.svg"
-        alt="Edit"
+        alt="Edit Card"
       />
     </button>
   </div>

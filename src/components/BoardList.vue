@@ -15,32 +15,11 @@ const props = defineProps<{
 
 const cardStore = useCardStore();
 
-const activeCard = ref<Partial<Card> | null>(null);
-const activeCardRect = ref<DOMRect | null>(null);
-
 const {
   isVisible: isCardCreateFormVisible,
   show: showCardCreateForm,
   hide: hideCardCreateForm,
 } = useToggle();
-
-const {
-  isVisible: isCardUpdateFormVisible,
-  show: showCardUpdateForm,
-  hide: hideCardUpdateForm,
-} = useToggle();
-
-const handleOpenCardUpdateForm = (card: Partial<Card>, cardRect: DOMRect) => {
-  activeCard.value = card;
-  activeCardRect.value = cardRect;
-  showCardUpdateForm();
-};
-
-const handleCloseCardUpdateForm = () => {
-  activeCard.value = null;
-  activeCardRect.value = null;
-  hideCardUpdateForm();
-};
 
 const handleCreateCard = (formData: Partial<Card>) => {
   cardStore.storeCard({
@@ -58,28 +37,39 @@ const handleUpdateCard = (formData: Partial<Card>) => {
     listId: props.list.id,
     content: formData.content as string,
   });
-  handleCloseCardUpdateForm();
+  hideQuickCardEditorMenu();
 };
 
-const activeCardPosition = computed((): CSSProperties | null => {
-  if (!activeCardRect.value) {
-    return null;
+const cardRefs = ref<Record<Card['id'], HTMLElement>>({});
+const currentCard = ref<Card | null>(null);
+const currentCardRef = ref<HTMLElement | null>(null);
+const currentCardRect = ref<DOMRect | null>(null);
+
+const {
+  isVisible: isQuickCardEditorMenuVisible,
+  show: showQuickCardEditorMenu,
+  hide: hideQuickCardEditorMenu,
+} = useToggle();
+
+function openQuickCardEditorMenu(card: Card) {
+  const cardId = card.id;
+  const cardRef = cardRefs.value[cardId]!;
+  currentCard.value = card;
+  currentCardRef.value = cardRef;
+  currentCardRect.value = cardRef.getBoundingClientRect();
+  showQuickCardEditorMenu();
+}
+
+const quickCardEditorMenuStyles = computed((): CSSProperties => {
+  if (!currentCardRect.value) {
+    return {};
   }
 
   return {
-    top: `${activeCardRect.value.top}px`,
-    left: `${activeCardRect.value.left}px`,
-  };
-});
-
-const activeCardSize = computed((): CSSProperties | null => {
-  if (!activeCardRect.value) {
-    return null;
-  }
-
-  return {
-    height: `${activeCardRect.value.height}px`,
-    width: `${activeCardRect.value.width}px`,
+    top: `${currentCardRect.value.top}px`,
+    left: `${currentCardRect.value.left}px`,
+    height: `${currentCardRect.value.height}px`,
+    width: `${currentCardRect.value.width}px`,
   };
 });
 </script>
@@ -89,8 +79,12 @@ const activeCardSize = computed((): CSSProperties | null => {
     <h2 class="font-bold capitalize pl-2">{{ list.title }}</h2>
 
     <ul class="space-y-2 mt-3 mb-2">
-      <li v-for="card in list.cards" :key="card.id">
-        <BoardCard :card="card" @edit="handleOpenCardUpdateForm" />
+      <li
+        v-for="card in list.cards"
+        :key="card.id"
+        :ref="(element) => (cardRefs[card.id] = element as HTMLElement)"
+      >
+        <BoardCard :card="card" @edit="openQuickCardEditorMenu" />
       </li>
     </ul>
 
@@ -106,15 +100,24 @@ const activeCardSize = computed((): CSSProperties | null => {
       </span>
     </CustomButton>
 
-    <FocusOverlay v-if="isCardUpdateFormVisible">
-      <div class="flex gap-2 absolute" :style="activeCardPosition || undefined">
+    <FocusOverlay v-if="isQuickCardEditorMenuVisible">
+      <div
+        class="flex gap-2 absolute"
+        :style="{
+          top: quickCardEditorMenuStyles.top,
+          left: quickCardEditorMenuStyles.left,
+        }"
+      >
         <CardForm
-          :style="activeCardSize || undefined"
-          :initial-values="activeCard"
+          :style="{
+            height: quickCardEditorMenuStyles.height,
+            width: quickCardEditorMenuStyles.width,
+          }"
+          :initial-values="currentCard"
           @save="handleUpdateCard"
-          @cancel="handleCloseCardUpdateForm"
+          @cancel="hideQuickCardEditorMenu"
         />
-        <CardMenu />
+        <CardMenu />|
       </div>
     </FocusOverlay>
   </div>
