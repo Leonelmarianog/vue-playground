@@ -47,6 +47,12 @@ function openQuickCardEditorMenu(card: Card) {
   currentCardRef.value = cardRef;
   showQuickCardEditorMenu();
 }
+
+function closeQuickCardEditorMenu() {
+  currentCard.value = null;
+  currentCardRef.value = null;
+  hideQuickCardEditorMenu();
+}
 </script>
 
 <template>
@@ -80,7 +86,7 @@ function openQuickCardEditorMenu(card: Card) {
       :cardRef="currentCardRef!"
       :card="currentCard!"
       :listId="list.id"
-      @close="hideQuickCardEditorMenu"
+      @close="closeQuickCardEditorMenu"
     />
   </div>
 </template>
