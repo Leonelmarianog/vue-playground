@@ -50,13 +50,13 @@ const classes = computed(() => {
   return [BASE_STYLE, variant, padding, width];
 });
 
-const onClick = () => {
+function click() {
   emit('click');
-};
+}
 </script>
 
 <template>
-  <button :class="classes" @click="onClick">
+  <button :class="classes" @click="click">
     <slot />
   </button>
 </template>
