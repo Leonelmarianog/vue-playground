@@ -7,6 +7,7 @@ import type { Card, List } from '@/types';
 import { useToggle } from '@/composables/useToggle';
 import { useCardStore } from '@/stores/card';
 import QuickCardEditorMenuOverlay from '@/components/QuickCardEditorMenuOverlay.vue';
+import { Plus } from 'lucide-vue-next';
 
 const props = defineProps<{
   list: List;
@@ -76,8 +77,9 @@ function closeQuickCardEditorMenu() {
     />
 
     <CustomButton v-else variant="clear" width="full" @click="showCardCreateForm">
-      <span class="text-neutral-500 hover:text-neutral-700 text-sm font-bold text-left block">
-        + Add another card
+      <span class="flex items-center gap-1 font-bold text-sm">
+        <Plus :size="16" />
+        Add another card
       </span>
     </CustomButton>
 

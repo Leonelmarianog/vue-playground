@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import CardLabel from './CardLabel.vue';
 import type { Card } from '@/types';
+import { Pencil } from 'lucide-vue-next';
+import CustomButton from '@/components/CustomButton.vue';
 
 const props = defineProps<{
   card: Card;
@@ -25,15 +27,10 @@ const edit = () => {
 
     <p class="truncate">{{ card.content }}</p>
 
-    <button
-      class="bg-neutral-100 text-sm font-bold p-1 rounded-sm cursor-pointer group-hover:block hover:bg-neutral-300 absolute top-[0.2em] right-[0.2em]"
-      @click="edit"
-    >
-      <img
-        class="w-5 h-5"
-        src="https://unpkg.com/lucide-static@latest/icons/pencil.svg"
-        alt="Edit Card"
-      />
-    </button>
+    <div class="absolute top-1 right-1 hidden group-hover:block">
+      <CustomButton variant="clear" padding="xs" @click="edit">
+        <Pencil :size="20" />
+      </CustomButton>
+    </div>
   </div>
 </template>
