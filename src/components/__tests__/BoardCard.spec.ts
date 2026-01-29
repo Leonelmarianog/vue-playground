@@ -34,15 +34,21 @@ describe('BoardCard.vue', () => {
       },
       global: {
         stubs: {
-          CardLabel: {
-            name: 'CardLabel',
-            props: ['label'],
-            template: `<span id="card-label-stub">{{ label.name }}:{{ label.color }}</span>`,
+          CardLabels: {
+            name: 'CardLabels',
+            props: ['labels'],
+            template: `
+              <ul>
+                <li v-for="label in labels" :key="label.name">
+                  <span class="card-label-stub">{{ label.name }}:{{ label.color }}</span>
+                </li>
+              </ul>
+            `,
           },
         },
       },
     });
-    const labels = wrapper.findAll('#card-label-stub');
+    const labels = wrapper.findAll('.card-label-stub');
 
     expect(labels).toHaveLength(2);
     expect((labels[0] as DOMWrapper<HTMLElement>).text()).toBe('Bug:#f00');
