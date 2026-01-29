@@ -58,7 +58,7 @@ onMounted(() => {
         </div>
 
         <div class="space-x-2">
-          <CustomButton type="submit" variant="sky" :disabled="!meta.valid">Save</CustomButton>
+          <CustomButton type="submit" variant="green" :disabled="!meta.valid">Save</CustomButton>
           <CustomButton type="button" @click="cancel">Cancel</CustomButton>
         </div>
       </div>
