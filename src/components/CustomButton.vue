@@ -1,33 +1,36 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
+type VariantOption = 'default' | 'green' | 'transparent' | 'clear';
+type PaddingOption = 'xs' | 'sm' | 'md' | 'lg';
+
 const emit = defineEmits<{
   (e: 'click'): void;
 }>();
 
 const props = withDefaults(
   defineProps<{
-    variant?: 'default' | 'green' | 'transparent' | 'clear';
+    variant?: VariantOption;
+    padding?: PaddingOption;
     fullWidth?: boolean;
-    padding?: 'xs' | 'sm' | 'md' | 'lg';
   }>(),
   {
     variant: 'default',
-    fullWidth: false,
     padding: 'md',
+    fullWidth: false,
   },
 );
 
 const BASE_STYLE = 'cursor-pointer disabled:cursor-not-allowed rounded-sm text-nowrap';
 
-const VARIANT_OPTIONS = {
+const VARIANT_OPTIONS: Record<VariantOption, string> = {
   default: 'bg-neutral-600 hover:bg-neutral-700 disabled:bg-neutral-300 text-white',
   green: 'bg-green-600 hover:bg-green-700 disabled:bg-green-300 text-white',
   transparent: 'bg-black/60 hover:bg-black/80 disabled:bg-black/30 text-white',
   clear: 'bg-transparent hover:bg-gray-100 disabled:text-gray-400 text-gray-800',
 };
 
-const PADDING_OPTIONS = {
+const PADDING_OPTIONS: Record<PaddingOption, string> = {
   xs: 'py-1 px-3 text-sm',
   sm: 'py-1.5 px-4 text-sm',
   md: 'py-2 px-6',
