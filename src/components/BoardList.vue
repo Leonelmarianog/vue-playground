@@ -75,7 +75,7 @@ function closeQuickCardEditorMenu() {
       @cancel="hideCardCreateForm"
     />
 
-    <CustomButton v-else variant="clear" :fullWidth="true" @click="showCardCreateForm">
+    <CustomButton v-else variant="clear" width="full" @click="showCardCreateForm">
       <span class="text-neutral-500 hover:text-neutral-700 text-sm font-bold text-left block">
         + Add another card
       </span>

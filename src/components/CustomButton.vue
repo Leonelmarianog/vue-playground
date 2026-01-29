@@ -3,6 +3,7 @@ import { computed } from 'vue';
 
 type VariantOption = 'default' | 'green' | 'transparent' | 'clear';
 type PaddingOption = 'xs' | 'sm' | 'md' | 'lg';
+type WidthOption = 'auto' | 'full';
 
 const emit = defineEmits<{
   (e: 'click'): void;
@@ -12,12 +13,12 @@ const props = withDefaults(
   defineProps<{
     variant?: VariantOption;
     padding?: PaddingOption;
-    fullWidth?: boolean;
+    width?: WidthOption;
   }>(),
   {
     variant: 'default',
     padding: 'md',
-    fullWidth: false,
+    width: 'auto',
   },
 );
 
@@ -37,10 +38,15 @@ const PADDING_OPTIONS: Record<PaddingOption, string> = {
   lg: 'py-3 px-8 text-lg',
 };
 
+const WIDTH_OPTIONS: Record<WidthOption, string> = {
+  auto: 'auto',
+  full: 'w-full',
+};
+
 const classes = computed(() => {
   const variant = VARIANT_OPTIONS[props.variant];
   const padding = PADDING_OPTIONS[props.padding];
-  const width = props.fullWidth ? 'w-full' : '';
+  const width = WIDTH_OPTIONS[props.width];
   return [BASE_STYLE, variant, padding, width];
 });
 
