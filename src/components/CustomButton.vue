@@ -25,17 +25,17 @@ const props = withDefaults(
 const BASE_STYLE = 'cursor-pointer disabled:cursor-not-allowed rounded-sm text-nowrap';
 
 const VARIANT_OPTIONS: Record<VariantOption, string> = {
-  default: 'bg-neutral-600 hover:bg-neutral-700 disabled:bg-neutral-300 text-white',
-  green: 'bg-green-600 hover:bg-green-700 disabled:bg-green-300 text-white',
-  transparent: 'bg-black/60 hover:bg-black/80 disabled:bg-black/30 text-white',
-  clear: 'bg-transparent hover:bg-gray-100 disabled:text-gray-400 text-gray-800',
+  default: 'bg-neutral-600 hover:bg-neutral-700 disabled:bg-neutral-700 text-white',
+  green: 'bg-green-600 hover:bg-green-700 disabled:bg-green-700 text-white',
+  transparent: 'bg-black/40 hover:bg-black/60 disabled:bg-black/60 text-white',
+  clear: 'bg-transparent hover:bg-black/10 disabled:bg-bg-black/10 text-black',
 };
 
 const PADDING_OPTIONS: Record<PaddingOption, string> = {
-  xs: 'py-1 px-3 text-sm',
-  sm: 'py-1.5 px-4 text-sm',
-  md: 'py-2 px-6',
-  lg: 'py-3 px-8 text-lg',
+  xs: 'py-1 px-1 text-sm',
+  sm: 'py-1 px-2 text-sm',
+  md: 'py-2 px-3',
+  lg: 'py-3 px-4 text-lg',
 };
 
 const WIDTH_OPTIONS: Record<WidthOption, string> = {
