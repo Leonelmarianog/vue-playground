@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { DOMWrapper, mount } from '@vue/test-utils';
 import BoardCard from '@/components/BoardCard.vue';
+import CustomButton from '@/components/CustomButton.vue';
 
 describe('BoardCard.vue', () => {
   it('renders the card content', () => {
@@ -48,7 +49,7 @@ describe('BoardCard.vue', () => {
     expect((labels[1] as DOMWrapper<HTMLElement>).text()).toBe('Chore:#0f0');
   });
 
-  it('renders the edit button', () => {
+  it('renders the edit button with correct props', () => {
     const wrapper = mount(BoardCard, {
       props: {
         card: {
@@ -58,10 +59,21 @@ describe('BoardCard.vue', () => {
           labels: [],
         },
       },
+      global: {
+        stubs: {
+          CustomButton: {
+            template: '<button><slot /></button>',
+            props: ['variant', 'padding'],
+          },
+        },
+      },
     });
-    const button = wrapper.find('button');
+    const button = wrapper.findComponent(CustomButton);
 
     expect(button.exists()).toBe(true);
+    expect(button.props('variant')).toBe('clear');
+    expect(button.props('padding')).toBe('xs');
+    expect(wrapper.find('svg').exists()).toBe(true);
   });
 
   it('emits "edit" event with card data when edit button is clicked', async () => {
