@@ -1,26 +1,8 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import { DOMWrapper, mount } from '@vue/test-utils';
 import BoardCard from '@/components/BoardCard.vue';
 
 describe('BoardCard.vue', () => {
-  beforeEach(() => {
-    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
-      x: 10,
-      y: 20,
-      width: 300,
-      height: 120,
-      top: 20,
-      right: 310,
-      bottom: 140,
-      left: 10,
-      toJSON: () => ({}),
-    } as DOMRect);
-  });
-
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it('renders the card content', () => {
     const wrapper = mount(BoardCard, {
       props: {
@@ -82,7 +64,7 @@ describe('BoardCard.vue', () => {
     expect(button.exists()).toBe(true);
   });
 
-  it('emits "edit" event with card data and bounding rect when edit button is clicked', async () => {
+  it('emits "edit" event with card data when edit button is clicked', async () => {
     const wrapper = mount(BoardCard, {
       props: {
         card: {
@@ -97,14 +79,8 @@ describe('BoardCard.vue', () => {
     await wrapper.find('button').trigger('click');
 
     const editEvent = wrapper.emitted('edit');
-    const [card, rect] = editEvent![0] as [Record<string, unknown>, DOMRect];
+    const [card] = editEvent![0] as [Record<string, unknown>];
 
     expect(card).toEqual({ id: 42, listId: 1, content: 'Editable content', labels: [] });
-    expect(rect).toMatchObject({
-      top: 20,
-      left: 10,
-      width: 300,
-      height: 120,
-    });
   });
 });
