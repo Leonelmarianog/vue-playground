@@ -28,14 +28,14 @@ const VARIANT_OPTIONS: Record<VariantOption, string> = {
   default: 'bg-neutral-600 hover:bg-neutral-700 disabled:bg-neutral-700 text-white',
   green: 'bg-green-600 hover:bg-green-700 disabled:bg-green-700 text-white',
   transparent: 'bg-black/40 hover:bg-black/60 disabled:bg-black/60 text-white',
-  clear: 'bg-transparent hover:bg-black/10 disabled:bg-bg-black/10 text-black',
+  clear: 'bg-transparent hover:bg-black/10 disabled:bg-bg-black/10 text-neutral-600',
 };
 
 const PADDING_OPTIONS: Record<PaddingOption, string> = {
-  xs: 'py-1 px-1 text-sm',
-  sm: 'py-1 px-2 text-sm',
+  xs: 'py-1 px-1',
+  sm: 'py-1 px-2',
   md: 'py-2 px-3',
-  lg: 'py-3 px-4 text-lg',
+  lg: 'py-3 px-4',
 };
 
 const WIDTH_OPTIONS: Record<WidthOption, string> = {
