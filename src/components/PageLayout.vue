@@ -5,7 +5,7 @@
     </header>
 
     <main class="h-full relative">
-      <div class="h-full px-2 overflow-x-auto">
+      <div class="h-full overflow-x-auto">
         <slot name="default" />
       </div>
     </main>

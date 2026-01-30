@@ -8,18 +8,18 @@ const listStore = useListStore();
 </script>
 
 <template>
-  <div id="board" class="grid auto-cols-[20em] grid-flow-col gap-2 items-start h-full">
-    <ul>
-      <li v-for="list in listStore.lists" :key="list.id">
-        <BoardList :list="list" />
-      </li>
-    </ul>
+  <ul id="board" class="inline-grid auto-cols-[20em] grid-flow-col gap-2 items-start px-4">
+    <li v-for="list in listStore.lists" :key="list.id">
+      <BoardList :list="list" />
+    </li>
 
-    <CustomButton variant="transparent">
-      <span class="flex justify-center items-center gap-1">
-        <Plus :size="16" />
-        Add another List
-      </span>
-    </CustomButton>
-  </div>
+    <li>
+      <CustomButton variant="transparent" width="full">
+        <span class="flex justify-center items-center gap-1">
+          <Plus :size="16" />
+          Add another List
+        </span>
+      </CustomButton>
+    </li>
+  </ul>
 </template>
