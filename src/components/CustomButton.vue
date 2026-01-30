@@ -1,14 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-const BASE_STYLE = 'cursor-pointer disabled:cursor-not-allowed rounded-sm py-2 px-6 text-nowrap';
-
-const VARIANTS = {
-  default: 'bg-neutral-500 hover:bg-neutral-400 disabled:bg-neutral-400 text-white',
-  sky: 'bg-sky-500 hover:bg-sky-400 disabled:bg-sky-400 text-white',
-  transparent: 'bg-black/60 hover:bg-black/80 text-white',
-  clear: 'bg-black/0 hover:bg-black/20',
-};
+type VariantOption = 'default' | 'green' | 'transparent' | 'clear';
+type PaddingOption = 'xs' | 'sm' | 'md' | 'lg';
+type WidthOption = 'auto' | 'full';
 
 const emit = defineEmits<{
   (e: 'click'): void;
@@ -16,28 +11,52 @@ const emit = defineEmits<{
 
 const props = withDefaults(
   defineProps<{
-    variant?: string;
-    fullWidth?: boolean;
+    variant?: VariantOption;
+    padding?: PaddingOption;
+    width?: WidthOption;
   }>(),
   {
     variant: 'default',
-    fullWidth: false,
+    padding: 'md',
+    width: 'auto',
   },
 );
 
+const BASE_STYLE = 'cursor-pointer disabled:cursor-not-allowed rounded-sm text-nowrap';
+
+const VARIANT_OPTIONS: Record<VariantOption, string> = {
+  default: 'bg-neutral-600 hover:bg-neutral-700 disabled:bg-neutral-700 text-white',
+  green: 'bg-green-600 hover:bg-green-700 disabled:bg-green-700 text-white',
+  transparent: 'bg-black/40 hover:bg-black/60 disabled:bg-black/60 text-white',
+  clear: 'bg-transparent hover:bg-black/10 disabled:bg-bg-black/10 text-neutral-600',
+};
+
+const PADDING_OPTIONS: Record<PaddingOption, string> = {
+  xs: 'py-1 px-1',
+  sm: 'py-1 px-2',
+  md: 'py-2 px-3',
+  lg: 'py-3 px-4',
+};
+
+const WIDTH_OPTIONS: Record<WidthOption, string> = {
+  auto: 'auto',
+  full: 'w-full',
+};
+
 const classes = computed(() => {
-  const variant = VARIANTS[props.variant as keyof typeof VARIANTS];
-  const width = props.fullWidth ? 'w-full' : '';
-  return [BASE_STYLE, width, variant];
+  const variant = VARIANT_OPTIONS[props.variant];
+  const padding = PADDING_OPTIONS[props.padding];
+  const width = WIDTH_OPTIONS[props.width];
+  return [BASE_STYLE, variant, padding, width];
 });
 
-const onClick = () => {
+function click() {
   emit('click');
-};
+}
 </script>
 
 <template>
-  <button :class="classes" @click="onClick">
+  <button :class="classes" @click="click">
     <slot />
   </button>
 </template>
