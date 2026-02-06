@@ -9,30 +9,39 @@ on:
     paths: [ 'backend/**', '.github/workflows/backend.yml' ]
 
 jobs:
-  backend-checks:
+  run-tests:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v5
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
-          extensions: mbstring, dom, curl, libxml, sqlite
+          php-version: '8.5'
+          extensions: mbstring, dom, curl, libxml, mysql
           coverage: none
 
-      - name: Install Backend Dependencies
+      - name: Install deps
         run: cd backend && composer install --no-ansi --no-interaction --no-progress
 
-      - name: Prepare Environment
+      - name: Setup environment
         run: |
           cd backend
-          cp .env.example .env
-          php artisan key:generate
-          touch database/database.sqlite
+          cp .env.example .env.testing
+          php artisan key:generate --env=testing
 
-      - name: Check Backend Style (Pint)
-        run: cd backend && ./vendor/bin/pint --test
+      - name: Run Pint
+        run: npm run lint:check:backend
 
-      - name: Run Backend Tests
-        run: cd backend && php artisan test
+      - name: Run tests
+        run: npm run test:backend
+        env:
+          APP_ENV: testing
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3307
+          DB_DATABASE: kanban_board_testing
+          DB_USERNAME: user_testing
+          DB_PASSWORD: 123456
