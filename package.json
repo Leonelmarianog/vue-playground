@@ -1,0 +1,35 @@
+{
+  "name": "kanban-board",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install:all": "npm install && cd frontend && npm install",
+    "lint:frontend": "cd frontend && npm run lint",
+    "format:frontend": "cd frontend && npm run format",
+    "test:frontend": "cd frontend && npm run test:unit",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "frontend/src/**/*.{js,ts,vue}": [
+      "npm run lint:frontend",
+      "npm run format:frontend"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Leonelmarianog/kanban-board.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Leonelmarianog/kanban-board/issues"
+  },
+  "homepage": "https://github.com/Leonelmarianog/kanban-board#readme",
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7"
+  }
+}
