@@ -9,7 +9,7 @@
     "format:frontend": "cd frontend && npm run format",
     "test:frontend": "cd frontend && npm run test:unit",
     "lint:backend": "cd backend && composer run pint",
-    "format:backend": "cd backend && composer run pint",
+    "lint:check:backend": "cd backend && composer run pint -- --test",
     "test:backend": "cd backend && make test",
     "test:backend:unit": "cd backend && make test-unit",
     "test:backend:feature": "cd backend && make test-feature",
