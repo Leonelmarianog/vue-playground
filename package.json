@@ -10,7 +10,9 @@
     "test:frontend": "cd frontend && npm run test:unit",
     "lint:backend": "cd backend && ./vendor/bin/pint",
     "format:backend": "cd backend && ./vendor/bin/pint",
-    "test:backend": "cd backend && php artisan test",
+    "test:backend": "cd backend && make test",
+    "test:backend:unit": "cd backend && make test-unit",
+    "test:backend:feature": "cd backend && make test-feature",
     "prepare": "husky"
   },
   "lint-staged": {
