@@ -1,0 +1,38 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'backend/**', '.github/workflows/backend.yml' ]
+  pull_request:
+    branches: [ main ]
+    paths: [ 'backend/**', '.github/workflows/backend.yml' ]
+
+jobs:
+  backend-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, dom, curl, libxml, sqlite
+          coverage: none
+
+      - name: Install Backend Dependencies
+        run: cd backend && composer install --no-ansi --no-interaction --no-progress
+
+      - name: Prepare Environment
+        run: |
+          cd backend
+          cp .env.example .env
+          php artisan key:generate
+          touch database/database.sqlite
+
+      - name: Check Backend Style (Pint)
+        run: cd backend && ./vendor/bin/pint --test
+
+      - name: Run Backend Tests
+        run: cd backend && php artisan test
