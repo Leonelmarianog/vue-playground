@@ -8,8 +8,6 @@ on:
     branches: [ main ]
     paths: [ 'backend/**', '.github/workflows/backend.yml' ]
 
-
-
 jobs:
   linting-and-formatting:
     name: Linting & Formatting
@@ -77,4 +75,4 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: lucassabreu/comment-coverage-clover@main
         with:
-          file: backend/coverage.xml
+          file: backend/coverage/coverage.xml
