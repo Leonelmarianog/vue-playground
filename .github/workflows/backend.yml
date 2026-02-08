@@ -50,6 +50,7 @@ jobs:
           DB_PASSWORD: 123456
 
       - name: Report Coverage (as comment on PR)
+        if: github.event_name == 'pull_request'
         uses: lucassabreu/comment-coverage-clover@main
         with:
           file: backend/coverage.xml
