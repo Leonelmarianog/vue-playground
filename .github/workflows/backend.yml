@@ -49,4 +49,4 @@ jobs:
       - name: Report Coverage (as comment on PR)
         uses: lucassabreu/comment-coverage-clover@main
         with:
-          file: coverage.xml
+          file: backend/coverage.xml
