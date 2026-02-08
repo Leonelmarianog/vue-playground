@@ -30,14 +30,14 @@ jobs:
       - name: Install dependencies
         run: cd frontend && npm ci
 
-      - name: Run ESLint
-        run: cd frontend && npm run eslint:check
-
       - name: Run Prettier
-        run: cd frontend && npm run prettier:check
+        run: cd frontend && npm run format:check
+
+      - name: Run ESLint
+        run: cd frontend && npm run lint:check
 
       - name: Run typecheck
-        run: cd frontend && npm run tsc:build
+        run: cd frontend && npm run typecheck
 
   unit-tests:
     name: Unit Tests
