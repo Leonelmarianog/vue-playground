@@ -15,7 +15,7 @@
     "typecheck:frontend": "cd frontend && npm run typecheck",
     "test:unit:frontend": "cd frontend && npm run test:unit",
     "test:e2e:frontend": "cd frontend && npm run test:e2e",
-    "test:coverage:frontend": "cd frontend && npm run test:coverage",
+    "test:coverage:frontend": "cd frontend && npm run coverage",
     "format:backend": "cd backend && composer run format",
     "format:check:backend": "cd backend && composer run format:check",
     "lint:check:backend": "cd backend && composer run lint:check",
