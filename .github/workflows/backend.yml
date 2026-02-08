@@ -8,8 +8,27 @@ on:
     branches: [ main ]
     paths: [ 'backend/**', '.github/workflows/backend.yml' ]
 
+
+
 jobs:
-  run-tests:
+  linting-and-formatting:
+    name: Linting & Formatting
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Install project dependencies
+        run: npm run install:ci:backend
+
+      - name: Run formatting check
+        run: npm run format:check:backend
+
+  tests:
+    name: Tests
+
     runs-on: ubuntu-latest
 
     permissions:
@@ -26,20 +45,17 @@ jobs:
           extensions: mbstring, dom, curl, libxml, mysql
           coverage: xdebug
 
-      - name: Install deps
-        run: cd backend && composer install --no-ansi --no-interaction --no-progress
+      - name: Install project dependencies
+        run: npm run install:ci:backend
 
-      - name: Setup environment
+      - name: Setup project environment
         run: |
           cd backend
           cp .env.example .env.testing
           php artisan key:generate --env=testing
 
-      - name: Run formatting check
-        run: npm run format:check:backend
-
-      - name: Run tests
-        run: npm run test:backend
+      - name: Run tests with coverage
+        run: npm run test:coverage:backend
         env:
           APP_ENV: testing
           DB_CONNECTION: mysql

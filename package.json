@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "install:all": "npm install && cd frontend && npm install && cd ../backend && composer install",
+    "install:ci:backend": "cd backend && composer install -n --prefer-dist",
     "lint:frontend": "cd frontend && npm run lint",
     "lint:check:frontend": "cd frontend && npm run lint:check",
     "format:frontend": "cd frontend && npm run format",
@@ -15,7 +16,7 @@
     "test:coverage:frontend": "cd frontend && npm run test:coverage",
     "format:backend": "cd backend && composer run format",
     "format:check:backend": "cd backend && composer run format:check",
-    "test:backend": "cd backend && make coverage",
+    "test:coverage:backend": "cd backend && make coverage",
     "test:backend:unit": "cd backend && make test-unit",
     "test:backend:feature": "cd backend && make test-feature",
     "prepare": "husky"
