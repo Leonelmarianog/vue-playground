@@ -6,4 +6,4 @@ npm run test:unit:frontend
 
 # Backend
 npm run format:check:backend
-npm run test:backend
+npm run test:unit:backend
