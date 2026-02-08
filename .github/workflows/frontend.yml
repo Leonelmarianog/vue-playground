@@ -12,8 +12,8 @@ permissions:
   pull-requests: write
 
 jobs:
-  lint-and-typecheck:
-    name: Lint & Typecheck
+  linting-formatting-and-typecheck:
+    name: Linting, Formatting & Typecheck
 
     runs-on: ubuntu-latest
 
@@ -27,25 +27,23 @@ jobs:
           node-version: 24
           cache: 'npm'
 
-      - name: Install dependencies
-        run: cd frontend && npm ci
+      - name: Install project dependencies
+        run: npm run install:ci:frontend
 
-      - name: Run Prettier
-        run: cd frontend && npm run format:check
+      - name: Run formatting check
+        run: npm run format:check:frontend
 
-      - name: Run ESLint
-        run: cd frontend && npm run lint:check
+      - name: Run linting check
+        run: npm run lint:check:frontend
 
-      - name: Run typecheck
-        run: cd frontend && npm run typecheck
+      - name: Run type check
+        run: npm run typecheck:frontend
 
   unit-tests:
     name: Unit Tests
 
     runs-on: ubuntu-latest
 
-    needs: lint-and-typecheck
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -56,13 +54,13 @@ jobs:
           node-version: 24
           cache: 'npm'
 
-      - name: Install dependencies
-        run: cd frontend && npm ci
+      - name: Install project dependencies
+        run: npm run install:ci:frontend
 
-      - name: Run unit tests
-        run: cd frontend && npm run coverage
+      - name: Run unit tests with coverage
+        run: npm run test:coverage:frontend
 
-      - name: Report Vitest Coverage
+      - name: Report coverage (as comment on PR)
         if: always() # Report results even if tests fail
         uses: davelosert/vitest-coverage-report-action@v2
         with:
@@ -74,8 +72,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    needs: unit-tests
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -86,17 +82,17 @@ jobs:
           node-version: 24
           cache: 'npm'
 
-      - name: Install dependencies
-        run: cd frontend && npm ci
+      - name: Install project dependencies
+        run: npm run install:ci:frontend
 
       - name: Install Playwright browsers
         run: cd frontend && npx playwright install --with-deps
 
       - name: Build application
-        run: cd frontend && npm run build
+        run: npm run build:frontend
 
-      - name: Start application and run E2E tests
-        run: cd frontend && npm run test:e2e
+      - name: Run E2E tests
+        run: npm run test:e2e:frontend
 
       - name: Report Playwright Results
         if: always() # Report results even if tests fail
