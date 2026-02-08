@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "install:all": "npm install && cd frontend && npm install && cd ../backend && composer install",
+    "install:ci:frontend": "cd frontend && npm ci",
     "install:ci:backend": "cd backend && composer install -n --prefer-dist",
+    "build:frontend": "cd frontend && npm run build",
     "lint:frontend": "cd frontend && npm run lint",
     "lint:check:frontend": "cd frontend && npm run lint:check",
     "format:frontend": "cd frontend && npm run format",
