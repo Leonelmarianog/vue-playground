@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "install:all": "npm install && cd frontend && npm install && cd ../backend && composer install",
+    "install:ci:backend": "cd backend && composer install -n --prefer-dist",
     "lint:frontend": "cd frontend && npm run lint",
     "lint:check:frontend": "cd frontend && npm run lint:check",
     "format:frontend": "cd frontend && npm run format",
@@ -13,11 +14,12 @@
     "test:unit:frontend": "cd frontend && npm run test:unit",
     "test:e2e:frontend": "cd frontend && npm run test:e2e",
     "test:coverage:frontend": "cd frontend && npm run test:coverage",
-    "lint:backend": "cd backend && composer run pint",
-    "lint:check:backend": "cd backend && composer run pint -- --test",
-    "test:backend": "cd backend && make coverage",
-    "test:backend:unit": "cd backend && make test-unit",
-    "test:backend:feature": "cd backend && make test-feature",
+    "format:backend": "cd backend && composer run format",
+    "format:check:backend": "cd backend && composer run format:check",
+    "lint:check:backend": "cd backend && composer run lint:check",
+    "test:coverage:backend": "cd backend && make coverage",
+    "test:unit:backend": "cd backend && make test-unit",
+    "test:feature:backend": "cd backend && make test-feature",
     "prepare": "husky"
   },
   "lint-staged": {
@@ -26,7 +28,7 @@
       "npm run lint:frontend"
     ],
     "backend/**/*.php": [
-      "npm run lint:backend"
+      "npm run format:backend"
     ]
   },
   "repository": {

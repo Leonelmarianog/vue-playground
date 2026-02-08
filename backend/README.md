@@ -32,7 +32,7 @@ We use **Laravel Pint** to maintain a clean and consistent code style.
 To automatically fix code style issues, run:
 
 ```bash
-composer run pint
+composer run format
 ```
 
 ## Testing
