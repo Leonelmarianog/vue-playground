@@ -1,8 +1,17 @@
 # Kanban Board - Backend
 
-This is the REST API for the Kanban Board project. It provides the data persistence and business logic required to manage boards, lists, and cards, among other resources.
+This is the backend application for the Kanban Board project. It provides the data persistence and business logic required to manage boards, lists, and cards, among other resources.
+
+# Requirements
+
+- [PHP](https://www.php.net/)
+- [Node.js](https://nodejs.org/)
+- [Docker](https://www.docker.com/)
+- [Composer](https://getcomposer.org/)
 
 ## Setup
+
+Run, in order:
 
 ```bash
 composer install
@@ -12,12 +21,14 @@ php artisan key:generate
 
 ## Usage
 
-The project uses Docker for required services (like MySQL):
+The project uses Docker to run services required by the application (like MySQL) which can be managed using the following commands:
 
-*   `make up`: Starts the development containers in the background.
-*   `make stop`: Stops the running containers.
-*   `make down`: Stops and removes the containers and their volumes.
-*   `make build`: Rebuilds the Docker images.
+```bash
+make build # Build docker images
+make up # Start containers in the background 
+make stop # Stop containers
+make down # Stop containers and remove volumes
+```
 
 Once the services are running, you can start the Laravel development server:
 
@@ -27,12 +38,10 @@ php artisan serve
 
 ## Linting & Formatting
 
-We use **Laravel Pint** to maintain a clean and consistent code style.
-
-To automatically fix code style issues, run:
-
 ```bash
-composer run format
+composer run format # Format code
+composer run format:check # Check for formatting errors
+composer run lint:check # Check for linting errors
 ```
 
 ## Testing
@@ -51,10 +60,10 @@ cp .env.example .env.testing
 
 ### Running Tests
 
-You can run tests using the following commands:
+```bash
+make coverage # Run tests with coverage
+make test-unit # Run unit tests
+make test-feature # Run feature tests
+```
 
-*   **All Tests**: `make coverage`
-*   **Unit Tests**: `make test-unit`
-*   **Feature Tests**: `make test-feature`
-
-> The `test-feature` and `test` commands automatically spin up a dedicated MySQL container, run the tests, and tear everything down once finished.
+> The `test-feature` and `coverage` commands automatically spin up a dedicated MySQL container, run the tests, and tear everything down once finished.
