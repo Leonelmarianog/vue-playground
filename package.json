@@ -16,6 +16,7 @@
     "test:coverage:frontend": "cd frontend && npm run test:coverage",
     "format:backend": "cd backend && composer run format",
     "format:check:backend": "cd backend && composer run format:check",
+    "lint:check:backend": "cd backend && composer run lint:check",
     "test:coverage:backend": "cd backend && make coverage",
     "test:unit:backend": "cd backend && make test-unit",
     "test:feature:backend": "cd backend && make test-feature",
