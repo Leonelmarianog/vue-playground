@@ -77,4 +77,4 @@ jobs:
         if: github.event_name == 'pull_request'
         uses: lucassabreu/comment-coverage-clover@main
         with:
-          file: backend/coverage.xml
+          file: backend/coverage/coverage.xml
