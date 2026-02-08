@@ -26,7 +26,7 @@ test-feature:
 	make up-test && \
 	php artisan test --testsuite=Feature
 
-test:
+coverage:
 	@trap 'make down-test' EXIT; \
 	make up-test && \
-	php artisan test
+	php artisan test --coverage
