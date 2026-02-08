@@ -17,8 +17,8 @@
     "format:backend": "cd backend && composer run format",
     "format:check:backend": "cd backend && composer run format:check",
     "test:coverage:backend": "cd backend && make coverage",
-    "test:backend:unit": "cd backend && make test-unit",
-    "test:backend:feature": "cd backend && make test-feature",
+    "test:unit:backend": "cd backend && make test-unit",
+    "test:feature:backend": "cd backend && make test-feature",
     "prepare": "husky"
   },
   "lint-staged": {
