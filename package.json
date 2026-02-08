@@ -4,16 +4,24 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install:all": "npm install && cd frontend && npm install",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && composer install",
     "lint:frontend": "cd frontend && npm run lint",
     "format:frontend": "cd frontend && npm run format",
     "test:frontend": "cd frontend && npm run test:unit",
+    "lint:backend": "cd backend && composer run pint",
+    "lint:check:backend": "cd backend && composer run pint -- --test",
+    "test:backend": "cd backend && make coverage",
+    "test:backend:unit": "cd backend && make test-unit",
+    "test:backend:feature": "cd backend && make test-feature",
     "prepare": "husky"
   },
   "lint-staged": {
     "frontend/src/**/*.{js,ts,vue}": [
       "npm run lint:frontend",
       "npm run format:frontend"
+    ],
+    "backend/**/*.php": [
+      "npm run lint:backend"
     ]
   },
   "repository": {

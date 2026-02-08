@@ -1,0 +1,55 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'backend/**', '.github/workflows/backend.yml' ]
+  pull_request:
+    branches: [ main ]
+    paths: [ 'backend/**', '.github/workflows/backend.yml' ]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: mbstring, dom, curl, libxml, mysql
+          coverage: xdebug
+
+      - name: Install deps
+        run: cd backend && composer install --no-ansi --no-interaction --no-progress
+
+      - name: Setup environment
+        run: |
+          cd backend
+          cp .env.example .env.testing
+          php artisan key:generate --env=testing
+
+      - name: Run Pint
+        run: npm run lint:check:backend
+
+      - name: Run tests
+        run: npm run test:backend
+        env:
+          APP_ENV: testing
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3307
+          DB_DATABASE: kanban_board_testing
+          DB_USERNAME: user_testing
+          DB_PASSWORD: 123456
+
+      - name: Report Coverage (as comment on PR)
+        uses: lucassabreu/comment-coverage-clover@main
+        with:
+          file: backend/coverage.xml

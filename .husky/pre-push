@@ -1,2 +1,7 @@
+# Frontend
 npm run lint:frontend
 npm run test:frontend
+
+# Backend
+npm run lint:check:backend
+npm run test:backend
