@@ -13,8 +13,8 @@
     "test:unit:frontend": "cd frontend && npm run test:unit",
     "test:e2e:frontend": "cd frontend && npm run test:e2e",
     "test:coverage:frontend": "cd frontend && npm run test:coverage",
-    "lint:backend": "cd backend && composer run pint",
-    "lint:check:backend": "cd backend && composer run pint -- --test",
+    "format:backend": "cd backend && composer run format",
+    "format:check:backend": "cd backend && composer run format:check",
     "test:backend": "cd backend && make coverage",
     "test:backend:unit": "cd backend && make test-unit",
     "test:backend:feature": "cd backend && make test-feature",
@@ -26,7 +26,7 @@
       "npm run lint:frontend"
     ],
     "backend/**/*.php": [
-      "npm run lint:backend"
+      "npm run format:backend"
     ]
   },
   "repository": {

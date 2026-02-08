@@ -35,8 +35,8 @@ jobs:
           cp .env.example .env.testing
           php artisan key:generate --env=testing
 
-      - name: Run Pint
-        run: npm run lint:check:backend
+      - name: Run formatting check
+        run: npm run format:check:backend
 
       - name: Run tests
         run: npm run test:backend
