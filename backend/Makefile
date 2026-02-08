@@ -29,4 +29,4 @@ test-feature:
 coverage:
 	@trap 'make down-test' EXIT; \
 	make up-test && \
-	php artisan test --coverage
+	php artisan test --coverage --coverage-clover=coverage.xml

@@ -45,3 +45,8 @@ jobs:
           DB_DATABASE: kanban_board_testing
           DB_USERNAME: user_testing
           DB_PASSWORD: 123456
+
+      - name: Report Coverage (as comment on PR)
+        uses: lucassabreu/comment-coverage-clover@main
+        with:
+          file: coverage.xml
