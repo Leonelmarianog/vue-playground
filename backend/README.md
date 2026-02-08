@@ -53,7 +53,7 @@ cp .env.example .env.testing
 
 You can run tests using the following commands:
 
-*   **All Tests**: `make test`
+*   **All Tests**: `make coverage`
 *   **Unit Tests**: `make test-unit`
 *   **Feature Tests**: `make test-feature`
 
