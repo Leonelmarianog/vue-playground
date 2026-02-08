@@ -8,14 +8,15 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" --",
+    "build": "run-p typecheck \"build-only {@}\" --",
     "preview": "vite preview",
     "test:unit": "vitest --run",
     "test:e2e": "playwright test",
     "coverage": "vitest run --coverage",
     "build-only": "vite build",
-    "type-check": "vue-tsc --build",
-    "lint": "eslint . --fix --cache",
+    "typecheck": "vue-tsc --build",
+    "lint": "eslint . --fix",
+    "lint:check": "eslint .",
     "format": "prettier --write \"**/*.{js,ts,mts,tsx,vue,json,md,html,css,scss}\"",
     "format:check": "prettier --check \"**/*.{js,ts,mts,tsx,vue,json,md,html,css,scss}\"",
     "prepare": "husky"
