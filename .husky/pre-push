@@ -1,6 +1,8 @@
 # Frontend
+npm run format:check:frontend
 npm run lint:check:frontend
-npm run test:frontend
+npm run typecheck:frontend
+npm run test:unit
 
 # Backend
 npm run lint:check:backend

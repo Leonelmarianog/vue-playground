@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "install:all": "npm install && cd frontend && npm install && cd ../backend && composer install",
-    "lint:frontend": "cd frontend && npm run eslint",
-    "lint:check:frontend": "cd frontend && npm run eslint:check",
-    "format:frontend": "cd frontend && npm run prettier",
-    "format:check:frontend": "cd frontend && npm run prettier:check",
-    "test:frontend": "cd frontend && npm run test:unit",
+    "lint:frontend": "cd frontend && npm run lint",
+    "lint:check:frontend": "cd frontend && npm run lint:check",
+    "format:frontend": "cd frontend && npm run format",
+    "format:check:frontend": "cd frontend && npm run format:check",
+    "typecheck:frontend": "cd frontend && npm run typecheck",
+    "test:unit:frontend": "cd frontend && npm run test:unit",
+    "test:e2e:frontend": "cd frontend && npm run test:e2e",
+    "test:coverage:frontend": "cd frontend && npm run test:coverage",
     "lint:backend": "cd backend && composer run pint",
     "lint:check:backend": "cd backend && composer run pint -- --test",
     "test:backend": "cd backend && make coverage",
@@ -19,8 +22,8 @@
   },
   "lint-staged": {
     "frontend/src/**/*.{js,ts,vue}": [
-      "npm run lint:frontend",
-      "npm run format:frontend"
+      "npm run format:frontend",
+      "npm run lint:frontend"
     ],
     "backend/**/*.php": [
       "npm run lint:backend"
