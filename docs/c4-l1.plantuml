@@ -1,0 +1,14 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title System Context Diagram for Kanban Board Application
+
+Person(user, "User", "A person who manages tasks and collaborates on boards.")
+
+System(kanban_system, "Kanban Board System", "Allows users to create boards, lists, and cards to organize tasks.")
+
+System_Ext(email_system, "E-mail System", "The internal or external SMTP system to send notifications (invites, updates).")
+
+Rel(user, kanban_system, "Uses", "HTTPS")
+Rel(kanban_system, email_system, "Sends e-mails using", "SMTP")
+@enduml

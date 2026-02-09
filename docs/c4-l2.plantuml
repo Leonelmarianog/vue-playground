@@ -1,0 +1,21 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Container Diagram for Kanban Board Application
+
+Person(user, "User", "A person who manages tasks and collaborates on boards.")
+
+System_Boundary(c1, "Kanban Board System") {
+    Container(spa, "Single Page Application", "Vue 3, TypeScript, Pinia", "Provides the drag-and-drop interface for users to manage boards.")
+    Container(api, "API Application", "Laravel 12, PHP", "Provides RESTful API endpoints, handles business logic, and manages authorization.")
+    ContainerDb(db, "Database", "MySQL", "Stores users, members, boards, lists, cards, and labels.")
+}
+
+System_Ext(email_system, "E-mail System", "External SMTP system.")
+
+Rel(user, spa, "Visits and interacts with", "HTTPS")
+Rel(spa, api, "Makes API calls to", "JSON/HTTPS")
+Rel(api, db, "Reads from and writes to", "SQL")
+Rel(api, email_system, "Sends e-mails using", "SMTP")
+
+@enduml
