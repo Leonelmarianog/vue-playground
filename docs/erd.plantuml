@@ -4,8 +4,23 @@
 entity User {
   + id: UUID <<PK>>
   --
-  name: string
+  first_name: string
+  last_name: string
   email: string
+  created_at: datetime
+  updated_at: datetime
+  deleted_at: datetime
+}
+
+entity Member {
+  + id: UUID <<PK>>
+  --
+  fk_user_id: UUID <<FK>>
+  initials: string ' e.g., 'JD'
+  full_name: string ' derived from user
+  email: string ' same as user email
+  avatar_url: string
+  bio: text
   created_at: datetime
   updated_at: datetime
   deleted_at: datetime
@@ -14,7 +29,7 @@ entity User {
 entity Board {
   + id: UUID <<PK>>
   --
-  fk_user_id: UUID <<FK>>
+  fk_member_id: UUID <<FK>> ' Owner of the board
   name: string
   description: string
   created_at: datetime
@@ -66,10 +81,10 @@ entity card_label {
   deleted_at: datetime
 }
 
-' Pivot Table for Many-to-Many Board-User sharing relationship
-entity board_user {
+' Pivot Table for Many-to-Many Board-Member sharing relationship (who has access to the board)
+entity board_member {
   + fk_board_id: UUID <<FK>>
-  + fk_user_id: UUID <<FK>>
+  + fk_member_id: UUID <<FK>>
   --
   created_at: datetime
   updated_at: datetime
@@ -77,13 +92,16 @@ entity board_user {
 }
 
 ' Relationships
-User ||--o{ Board : owns
-User ||--o{ board_user : is shared with
+User ||--|{ Member : has one profile
+Member ||--o{ Board : owns (member profile owns board)
+Member ||--o{ board_member : is shared with (member profile is shared)
+
 Board ||--o{ List : has many
 List ||--o{ Card : has many
 Board ||--o{ Label : has many
+
 Card ||--o{ card_label : has many
 Label ||--o{ card_label : has many
-Board ||--o{ board_user : is shared with
+Board ||--o{ board_member : is shared with
 
 @enduml
