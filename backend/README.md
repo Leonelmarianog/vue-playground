@@ -67,3 +67,7 @@ make test-feature # Run feature tests
 ```
 
 > The `test-feature` and `coverage` commands automatically spin up a dedicated MySQL container, run the tests, and tear everything down once finished.
+
+### Contributing
+
+See [CONTRIBUTING](CONTRIBUTING.md).
