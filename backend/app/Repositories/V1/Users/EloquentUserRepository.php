@@ -8,7 +8,7 @@ use App\Exceptions\V1\Users\UserNotFoundException;
 use App\Mappers\V1\Users\UserMapper;
 use App\Models\V1\Users\User as UserModel;
 
-class EloquentUserRepository implements UserRepositoryInterface
+final class EloquentUserRepository implements UserRepositoryInterface
 {
     /**
      * {@inheritDoc}
@@ -71,11 +71,13 @@ class EloquentUserRepository implements UserRepositoryInterface
      */
     public function store(User $user): User
     {
-        $userModel = new UserModel;
-        $userModel->id = $user->getId();
-
-        $userModel = UserMapper::toModel($user, $userModel);
-        $userModel->save();
+        $userModel = UserModel::create([
+            'id' => $user->id(),
+            'first_name' => $user->firstName(),
+            'last_name' => $user->lastName(),
+            'email' => $user->email(),
+            'password' => $user->password(),
+        ]);
 
         return UserMapper::toDomain($userModel);
     }
@@ -85,10 +87,14 @@ class EloquentUserRepository implements UserRepositoryInterface
      */
     public function update(User $user): User
     {
-        $userModel = UserModel::findOrFail($user->getId());
+        $userModel = UserModel::findOrFail($user->id());
 
-        $userModel = UserMapper::toModel($user, $userModel);
-        $userModel->save();
+        $userModel->update([
+            'first_name' => $user->firstName(),
+            'last_name' => $user->lastName(),
+            'email' => $user->email(),
+            'password' => $user->password(),
+        ]);
 
         return UserMapper::toDomain($userModel);
     }

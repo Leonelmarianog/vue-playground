@@ -13,29 +13,15 @@ class UserMapper
     public static function toDomain(UserModel $model): User
     {
         return new User(
-            $model->id,
-            $model->first_name,
-            $model->last_name,
-            $model->email,
-            $model->created_at,
-            $model->updated_at,
-            $model->deleted_at
+            id: $model->id,
+            firstName: $model->first_name,
+            lastName: $model->last_name,
+            email: $model->email,
+            password: $model->password,
+            emailVerifiedAt: $model->email_verified_at,
+            createdAt: $model->created_at,
+            updatedAt: $model->updated_at,
+            deletedAt: $model->deleted_at
         );
-    }
-
-    /**
-     * Map Domain Entity to Eloquent Model.
-     */
-    public static function toModel(User $user, UserModel $model): UserModel
-    {
-        if (! $model->exists) {
-            $model->id = $user->getId();
-        }
-
-        $model->first_name = $user->getFirstName();
-        $model->last_name = $user->getLastName();
-        $model->email = $user->getEmail();
-
-        return $model;
     }
 }
