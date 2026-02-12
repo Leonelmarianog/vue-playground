@@ -39,6 +39,13 @@ test('it can register a new user', function () {
         'first_name' => 'John',
         'last_name' => 'Doe',
     ]);
+
+    $this->assertDatabaseHas('members', [
+        'full_name' => 'John Doe',
+        'email' => 'john@example.com',
+        'avatar_url' => null,
+        'bio' => null,
+    ]);
 });
 
 test('it validates registration data', function () {
