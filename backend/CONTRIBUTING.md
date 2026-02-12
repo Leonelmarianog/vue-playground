@@ -7,6 +7,7 @@ This document outlines the architectural and development standards for the Kanba
 ### 1. Repository Pattern & Persistence
 *   **Eloquent Models**: Located in `app/Models`. They are strictly for database persistence and Eloquent-specific logic (e.g., relationships, casts).
 *   **Repositories**: Located in `app/Repositories`. All data access must be abstracted through repositories (e.g., `UserRepository`, `BoardRepository`).
+*   **Domain Objects**: Repositories must receive and return Domain objects. Internally, they are responsible for mapping Domain objects to/from Eloquent models.
 *   **Business Logic**: Business logic interacts with repositories to retrieve or store data, never directly with Eloquent models.
 *   **Domain Isolation**: Each core domain entity (User, Board, List, Card, Label) must have a corresponding repository.
 
@@ -21,6 +22,7 @@ This document outlines the architectural and development standards for the Kanba
 
 ### 4. Service Layer (Use Cases)
 *   **Orchestration**: Service classes (e.g., `app/Services/BoardService`) should be used to coordinate complex business logic, orchestrate interactions between multiple repositories, and manage domain entity lifecycles.
+*   **Domain Objects**: Services must receive and return Domain Objects (or DTOs that do not leak HTTP layer details). They should not work with raw request data or Eloquent models.
 
 ### 5. Authentication & Authorization
 *   **Authentication**: Leverage Laravel's built-in authentication system. Use **Laravel Sanctum** for SPA-to-API authentication.

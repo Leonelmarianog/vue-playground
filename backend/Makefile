@@ -13,10 +13,10 @@ down:
 # Testing
 
 up-test:
-	docker compose -f ./compose.test.yml up -d --wait
+	docker compose -f ./compose.test.yml --env-file .env.testing up -d --wait
 
 down-test:
-	docker compose -f ./compose.test.yml down -v
+	docker compose -f ./compose.test.yml --env-file .env.testing down -v
 
 test-unit:
 	@php artisan test --testsuite=Unit
