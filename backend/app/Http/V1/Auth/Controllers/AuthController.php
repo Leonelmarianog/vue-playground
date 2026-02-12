@@ -20,6 +20,7 @@ final class AuthController extends Controller
      */
     public function register(RegisterRequest $request): JsonResponse
     {
+        /** @var array{first_name: string, last_name: string, email: string, password: string} $validated */
         $validated = $request->validated();
 
         $user = $this->authService->register(User::create(

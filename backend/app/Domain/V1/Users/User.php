@@ -63,7 +63,7 @@ final class User
         return $this->emailVerifiedAt;
     }
 
-    public function password(): ?string
+    public function password(): string
     {
         return $this->password;
     }
