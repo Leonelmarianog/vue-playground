@@ -6,6 +6,7 @@ use Modules\Auth\Application\Commands\RegisterUserCommand;
 use Modules\Auth\Application\DTOs\AuthenticatedUserDTO;
 use Modules\Auth\Domain\Entities\Member;
 use Modules\Auth\Domain\Entities\User;
+use Modules\Auth\Domain\Exceptions\UserAlreadyExistsException;
 use Modules\Auth\Domain\Ports\AuthServiceInterface;
 use Modules\Auth\Domain\Ports\MemberRepositoryInterface;
 use Modules\Auth\Domain\Ports\PasswordHasherInterface;
@@ -26,8 +27,14 @@ final class RegisterUserHandler
 
     public function handle(RegisterUserCommand $command): AuthenticatedUserDTO
     {
+        $existingUser = $this->userRepository->findByEmail($command->email);
+
+        if ($existingUser) {
+            throw new UserAlreadyExistsException;
+        }
+
         return $this->transaction->execute(function () use ($command) {
-            $user = $this->userRepository->store(User::create(
+            $newUser = $this->userRepository->store(User::create(
                 id: $this->uuidGenerator->generate(),
                 firstName: $command->firstName,
                 lastName: $command->lastName,
@@ -35,15 +42,15 @@ final class RegisterUserHandler
                 password: $this->passwordHasher->hash($command->password),
             ));
 
-            $member = $this->memberRepository->store(Member::create(
-                userId: $user->id(),
-                fullName: $user->fullName(),
-                email: $user->email(),
+            $newMember = $this->memberRepository->store(Member::create(
+                userId: $newUser->id(),
+                fullName: $newUser->fullName(),
+                email: $newUser->email(),
             ));
 
-            $token = $this->authService->generateTokenForUserId($user->id());
+            $token = $this->authService->generateTokenForUserId($newUser->id());
 
-            return new AuthenticatedUserDTO($member, $token);
+            return new AuthenticatedUserDTO($newMember, $token);
         });
     }
 }
