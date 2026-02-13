@@ -6,9 +6,13 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth\Application\Handlers\RegisterUserHandler;
 use Modules\Auth\Domain\Ports\MemberRepositoryInterface;
+use Modules\Auth\Domain\Ports\PasswordHasherInterface;
 use Modules\Auth\Domain\Ports\UserRepositoryInterface;
-use Modules\Auth\Infrastructure\Adapters\Repositories\EloquentMemberRepository;
-use Modules\Auth\Infrastructure\Adapters\Repositories\EloquentUserRepository;
+use Modules\Auth\Domain\Ports\UuidGeneratorInterface;
+use Modules\Auth\Infrastructure\Adapters\EloquentMemberRepository;
+use Modules\Auth\Infrastructure\Adapters\EloquentUserRepository;
+use Modules\Auth\Infrastructure\Adapters\LaravelPasswordHasher;
+use Modules\Auth\Infrastructure\Adapters\LaravelUuidGenerator;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,6 +25,8 @@ class AuthServiceProvider extends ServiceProvider
         // Ports/Adapters
         $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);
         $this->app->bind(MemberRepositoryInterface::class, EloquentMemberRepository::class);
+        $this->app->bind(PasswordHasherInterface::class, LaravelPasswordHasher::class);
+        $this->app->bind(UuidGeneratorInterface::class, LaravelUuidGenerator::class);
 
         // Commands/Handlers
         $this->app->bind(
@@ -28,7 +34,9 @@ class AuthServiceProvider extends ServiceProvider
             function ($app) {
                 return new RegisterUserHandler(
                     $app->make(UserRepositoryInterface::class),
-                    $app->make(MemberRepositoryInterface::class)
+                    $app->make(MemberRepositoryInterface::class),
+                    $app->make(PasswordHasherInterface::class),
+                    $app->make(UuidGeneratorInterface::class),
                 );
             }
         );

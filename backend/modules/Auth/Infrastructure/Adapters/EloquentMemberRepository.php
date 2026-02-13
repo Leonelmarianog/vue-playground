@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Auth\Infrastructure\Adapters\Repositories;
+namespace Modules\Auth\Infrastructure\Adapters;
 
 use Modules\Auth\Domain\Entities\Member;
 use Modules\Auth\Domain\Ports\MemberRepositoryInterface;

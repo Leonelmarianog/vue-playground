@@ -2,9 +2,6 @@
 
 namespace Modules\Auth\Domain\Entities;
 
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-
 final class User
 {
     public function __construct(
@@ -20,17 +17,18 @@ final class User
     ) {}
 
     public static function create(
+        string $id,
         string $firstName,
         string $lastName,
         string $email,
         string $password,
     ): self {
         return new self(
-            id: Str::uuid()->toString(),
+            id: $id,
             firstName: $firstName,
             lastName: $lastName,
             email: $email,
-            password: Hash::make($password),
+            password: $password,
             emailVerifiedAt: null,
             createdAt: null,
             updatedAt: null,

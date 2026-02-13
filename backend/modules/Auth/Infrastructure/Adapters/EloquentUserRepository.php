@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Auth\Infrastructure\Adapters\Repositories;
+namespace Modules\Auth\Infrastructure\Adapters;
 
 use Modules\Auth\Domain\Entities\User;
 use Modules\Auth\Domain\Exceptions\UserNotFoundException;
