@@ -3,8 +3,10 @@
 namespace Modules\Auth\Application\Handlers;
 
 use Modules\Auth\Application\Commands\RegisterUserCommand;
+use Modules\Auth\Application\DTOs\AuthenticatedUserDTO;
 use Modules\Auth\Domain\Entities\Member;
 use Modules\Auth\Domain\Entities\User;
+use Modules\Auth\Domain\Ports\AuthServiceInterface;
 use Modules\Auth\Domain\Ports\MemberRepositoryInterface;
 use Modules\Auth\Domain\Ports\PasswordHasherInterface;
 use Modules\Auth\Domain\Ports\UserRepositoryInterface;
@@ -17,9 +19,10 @@ final class RegisterUserHandler
         private readonly MemberRepositoryInterface $memberRepository,
         private readonly PasswordHasherInterface $passwordHasher,
         private readonly UuidGeneratorInterface $uuidGenerator,
+        private readonly AuthServiceInterface $authService,
     ) {}
 
-    public function handle(RegisterUserCommand $command): Member
+    public function handle(RegisterUserCommand $command): AuthenticatedUserDTO
     {
         $user = $this->userRepository->store(User::create(
             id: $this->uuidGenerator->generate(),
@@ -29,12 +32,14 @@ final class RegisterUserHandler
             password: $this->passwordHasher->hash($command->password),
         ));
 
-        $member = Member::create(
+        $member = $this->memberRepository->store(Member::create(
             userId: $user->id(),
             fullName: $user->fullName(),
             email: $user->email(),
-        );
+        ));
 
-        return $this->memberRepository->store($member);
+        $token = $this->authService->generateTokenForUserId($user->id());
+
+        return new AuthenticatedUserDTO($member, $token);
     }
 }

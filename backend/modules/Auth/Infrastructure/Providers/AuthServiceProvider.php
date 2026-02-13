@@ -5,6 +5,7 @@ namespace Modules\Auth\Infrastructure\Providers;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth\Application\Handlers\RegisterUserHandler;
+use Modules\Auth\Domain\Ports\AuthServiceInterface;
 use Modules\Auth\Domain\Ports\MemberRepositoryInterface;
 use Modules\Auth\Domain\Ports\PasswordHasherInterface;
 use Modules\Auth\Domain\Ports\UserRepositoryInterface;
@@ -13,6 +14,7 @@ use Modules\Auth\Infrastructure\Adapters\EloquentMemberRepository;
 use Modules\Auth\Infrastructure\Adapters\EloquentUserRepository;
 use Modules\Auth\Infrastructure\Adapters\LaravelPasswordHasher;
 use Modules\Auth\Infrastructure\Adapters\LaravelUuidGenerator;
+use Modules\Auth\Infrastructure\Adapters\SanctumAuthService;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         $this->app->bind(MemberRepositoryInterface::class, EloquentMemberRepository::class);
         $this->app->bind(PasswordHasherInterface::class, LaravelPasswordHasher::class);
         $this->app->bind(UuidGeneratorInterface::class, LaravelUuidGenerator::class);
+        $this->app->bind(AuthServiceInterface::class, SanctumAuthService::class);
 
         // Commands/Handlers
         $this->app->bind(
@@ -37,6 +40,7 @@ class AuthServiceProvider extends ServiceProvider
                     $app->make(MemberRepositoryInterface::class),
                     $app->make(PasswordHasherInterface::class),
                     $app->make(UuidGeneratorInterface::class),
+                    $app->make(AuthServiceInterface::class),
                 );
             }
         );

@@ -3,7 +3,6 @@
 namespace Modules\Auth\Infrastructure\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use Auth;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Modules\Auth\Application\Commands\RegisterUserCommand;
@@ -26,20 +25,12 @@ final class AuthController extends Controller
                 password: $request->password,
             );
 
-            $member = $this->registerUserHandler->handle($command);
-
-            $user = Auth::guard('web')->loginUsingId($member->userId());
-
-            if (! $user) {
-                return response()->json(['message' => 'Registration successful, but login failed.'], 500);
-            }
-
-            $token = $user->createToken('auth-token')->plainTextToken;
+            $authenticatedUser = $this->registerUserHandler->handle($command);
 
             return response()->json([
                 'message' => 'Registration successful',
-                'token' => $token,
-                'member' => MemberResource::make($member),
+                'token' => $authenticatedUser->token,
+                'member' => MemberResource::make($authenticatedUser->member),
             ], 201);
 
         } catch (UserAlreadyExistsException $e) {
