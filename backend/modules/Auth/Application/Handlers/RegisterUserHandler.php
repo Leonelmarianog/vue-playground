@@ -9,6 +9,7 @@ use Modules\Auth\Domain\Entities\User;
 use Modules\Auth\Domain\Ports\AuthServiceInterface;
 use Modules\Auth\Domain\Ports\MemberRepositoryInterface;
 use Modules\Auth\Domain\Ports\PasswordHasherInterface;
+use Modules\Auth\Domain\Ports\TransactionInterface;
 use Modules\Auth\Domain\Ports\UserRepositoryInterface;
 use Modules\Auth\Domain\Ports\UuidGeneratorInterface;
 
@@ -20,26 +21,29 @@ final class RegisterUserHandler
         private readonly PasswordHasherInterface $passwordHasher,
         private readonly UuidGeneratorInterface $uuidGenerator,
         private readonly AuthServiceInterface $authService,
+        private readonly TransactionInterface $transaction,
     ) {}
 
     public function handle(RegisterUserCommand $command): AuthenticatedUserDTO
     {
-        $user = $this->userRepository->store(User::create(
-            id: $this->uuidGenerator->generate(),
-            firstName: $command->firstName,
-            lastName: $command->lastName,
-            email: $command->email,
-            password: $this->passwordHasher->hash($command->password),
-        ));
+        return $this->transaction->execute(function () use ($command) {
+            $user = $this->userRepository->store(User::create(
+                id: $this->uuidGenerator->generate(),
+                firstName: $command->firstName,
+                lastName: $command->lastName,
+                email: $command->email,
+                password: $this->passwordHasher->hash($command->password),
+            ));
 
-        $member = $this->memberRepository->store(Member::create(
-            userId: $user->id(),
-            fullName: $user->fullName(),
-            email: $user->email(),
-        ));
+            $member = $this->memberRepository->store(Member::create(
+                userId: $user->id(),
+                fullName: $user->fullName(),
+                email: $user->email(),
+            ));
 
-        $token = $this->authService->generateTokenForUserId($user->id());
+            $token = $this->authService->generateTokenForUserId($user->id());
 
-        return new AuthenticatedUserDTO($member, $token);
+            return new AuthenticatedUserDTO($member, $token);
+        });
     }
 }
