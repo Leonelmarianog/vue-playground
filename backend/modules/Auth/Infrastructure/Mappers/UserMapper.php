@@ -18,10 +18,10 @@ class UserMapper
             lastName: $model->last_name,
             email: $model->email,
             password: $model->password,
-            emailVerifiedAt: $model->email_verified_at,
-            createdAt: $model->created_at,
-            updatedAt: $model->updated_at,
-            deletedAt: $model->deleted_at
+            emailVerifiedAt: $model->email_verified_at?->toDateTimeImmutable(),
+            createdAt: $model->created_at?->toDateTimeImmutable(),
+            updatedAt: $model->updated_at?->toDateTimeImmutable(),
+            deletedAt: $model->deleted_at?->toDateTimeImmutable()
         );
     }
 }

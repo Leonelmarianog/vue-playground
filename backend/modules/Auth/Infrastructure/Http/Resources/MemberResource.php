@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Infrastructure\Http\Resources;
 
+use DateTimeInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Auth\Domain\Entities\Member;
@@ -25,9 +26,9 @@ class MemberResource extends JsonResource
             'email' => $this->resource->email(),
             'avatar_url' => $this->resource->avatarUrl(),
             'bio' => $this->resource->bio(),
-            'created_at' => $this->resource->createdAt(),
-            'updated_at' => $this->resource->updatedAt(),
-            'deleted_at' => $this->resource->deletedAt(),
+            'created_at' => $this->resource->createdAt()?->format(DateTimeInterface::ATOM),
+            'updated_at' => $this->resource->updatedAt()?->format(DateTimeInterface::ATOM),
+            'deleted_at' => $this->resource->deletedAt()?->format(DateTimeInterface::ATOM),
         ];
     }
 }

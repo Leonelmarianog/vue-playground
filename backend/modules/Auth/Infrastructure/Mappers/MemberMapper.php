@@ -19,9 +19,9 @@ class MemberMapper
             email: $model->email,
             avatarUrl: $model->avatar_url,
             bio: $model->bio,
-            createdAt: $model->created_at,
-            updatedAt: $model->updated_at,
-            deletedAt: $model->deleted_at,
+            createdAt: $model->created_at?->toDateTimeImmutable(),
+            updatedAt: $model->updated_at?->toDateTimeImmutable(),
+            deletedAt: $model->deleted_at?->toDateTimeImmutable()
         );
     }
 }

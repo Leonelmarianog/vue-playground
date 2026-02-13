@@ -2,6 +2,8 @@
 
 namespace Modules\Auth\Domain\Entities;
 
+use DateTimeImmutable;
+
 final class User
 {
     public function __construct(
@@ -10,10 +12,10 @@ final class User
         private readonly string $lastName,
         private readonly string $email,
         private readonly string $password,
-        private readonly ?string $emailVerifiedAt,
-        private readonly ?string $createdAt,
-        private readonly ?string $updatedAt,
-        private readonly ?string $deletedAt,
+        private readonly ?DateTimeImmutable $emailVerifiedAt,
+        private readonly ?DateTimeImmutable $createdAt,
+        private readonly ?DateTimeImmutable $updatedAt,
+        private readonly ?DateTimeImmutable $deletedAt
     ) {}
 
     public static function create(
@@ -56,27 +58,27 @@ final class User
         return $this->email;
     }
 
-    public function emailVerifiedAt(): ?string
-    {
-        return $this->emailVerifiedAt;
-    }
-
     public function password(): string
     {
         return $this->password;
     }
 
-    public function createdAt(): ?string
+    public function emailVerifiedAt(): ?DateTimeImmutable
+    {
+        return $this->emailVerifiedAt;
+    }
+
+    public function createdAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function updatedAt(): ?string
+    public function updatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function deletedAt(): ?string
+    public function deletedAt(): ?DateTimeImmutable
     {
         return $this->deletedAt;
     }

@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Domain\Entities;
 
+use DateTimeImmutable;
 use Str;
 
 final class Member
@@ -13,9 +14,9 @@ final class Member
         private string $email,
         private ?string $avatarUrl,
         private ?string $bio,
-        private ?string $createdAt,
-        private ?string $updatedAt,
-        private ?string $deletedAt,
+        private ?DateTimeImmutable $createdAt,
+        private ?DateTimeImmutable $updatedAt,
+        private ?DateTimeImmutable $deletedAt,
     ) {}
 
     /**
@@ -71,17 +72,17 @@ final class Member
         return $this->bio;
     }
 
-    public function createdAt(): ?string
+    public function createdAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function updatedAt(): ?string
+    public function updatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function deletedAt(): ?string
+    public function deletedAt(): ?DateTimeImmutable
     {
         return $this->deletedAt;
     }

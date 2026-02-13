@@ -2,6 +2,7 @@
 
 namespace Modules\Auth\Infrastructure\Http\Resources;
 
+use DateTimeInterface;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\Auth\Domain\Entities\User;
@@ -24,10 +25,10 @@ class UserResource extends JsonResource
             'last_name' => $this->resource->lastName(),
             'full_name' => $this->resource->fullName(),
             'email' => $this->resource->email(),
-            'email_verified_at' => $this->resource->emailVerifiedAt(),
-            'created_at' => $this->resource->createdAt(),
-            'updated_at' => $this->resource->updatedAt(),
-            'deleted_at' => $this->resource->deletedAt(),
+            'email_verified_at' => $this->resource->emailVerifiedAt()?->format(DateTimeInterface::ATOM),
+            'created_at' => $this->resource->createdAt()?->format(DateTimeInterface::ATOM),
+            'updated_at' => $this->resource->updatedAt()?->format(DateTimeInterface::ATOM),
+            'deleted_at' => $this->resource->deletedAt()?->format(DateTimeInterface::ATOM),
         ];
     }
 }
