@@ -13,6 +13,9 @@ final class AuthController extends BaseController
 {
     public function __construct(private readonly RegisterUserHandler $registerUserHandler) {}
 
+    /**
+     * Register a new user.
+     */
     public function register(RegisterRequest $request): JsonResponse
     {
         $command = new RegisterUserCommand(

@@ -25,7 +25,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
         // Ports/Adapters
         $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);
         $this->app->bind(MemberRepositoryInterface::class, EloquentMemberRepository::class);

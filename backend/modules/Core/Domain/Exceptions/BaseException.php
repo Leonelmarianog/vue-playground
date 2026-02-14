@@ -18,6 +18,9 @@ abstract class BaseException extends Exception
         parent::__construct($message, 0, $previous);
     }
 
+    /**
+     * Return the HTTP status code associated with the exception.
+     */
     public function getStatusCode(): int
     {
         return $this->statusCode;

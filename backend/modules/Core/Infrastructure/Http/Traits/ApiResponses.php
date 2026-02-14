@@ -8,7 +8,7 @@ use Throwable;
 trait ApiResponses
 {
     /**
-     * Returns an HTTP success response.
+     * Return an HTTP success response.
      */
     public function success(
         string $message,
@@ -26,7 +26,7 @@ trait ApiResponses
     }
 
     /**
-     * Returns an HTTP error response.
+     * Return an HTTP error response.
      */
     public function error(
         Throwable $exception,
@@ -57,11 +57,17 @@ trait ApiResponses
         return response()->json($response, $statusCode);
     }
 
+    /**
+     * Return the type of the exception, e.g. "NotFoundHttpException"
+     */
     private function getExceptionType(Throwable $exception): string
     {
         return basename(str_replace('\\', '/', get_class($exception)));
     }
 
+    /**
+     * Return specific error data for the HTTP response.
+     */
     private function getErrorData(Throwable $exception): array
     {
         return [
@@ -72,6 +78,9 @@ trait ApiResponses
         ];
     }
 
+    /**
+     * Return specific debug data for the HTTP response.
+     */
     private function getDebugData(Throwable $exception): array
     {
         if (! config('app.debug')) {

@@ -20,7 +20,7 @@ final class Member
     ) {}
 
     /**
-     * Returns a new Member instance.
+     * Create a new Member instance.
      */
     public static function create(
         string $userId,

@@ -18,6 +18,9 @@ final class User
         private readonly ?DateTimeImmutable $deletedAt
     ) {}
 
+    /**
+     * Create a new User instance.
+     */
     public static function create(
         string $id,
         string $firstName,
@@ -83,6 +86,9 @@ final class User
         return $this->deletedAt;
     }
 
+    /**
+     * Returns the full name of the user.
+     */
     public function fullName(): string
     {
         return "{$this->firstName} {$this->lastName}";

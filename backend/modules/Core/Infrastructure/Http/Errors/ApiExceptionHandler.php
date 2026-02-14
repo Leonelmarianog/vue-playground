@@ -22,21 +22,24 @@ final class ApiExceptionHandler
     ];
 
     /**
-     * Handles an exception.
+     * Handle an exception.
      */
     public function handle(
         Throwable $exception,
         Request $request
     ): JsonResponse {
-        foreach ($this->handlers as $class => $method) {
-            if ($exception instanceof $class) {
-                return $this->$method($exception, $request);
+        foreach ($this->handlers as $exceptionClass => $handlerMethod) {
+            if ($exception instanceof $exceptionClass) {
+                return $this->$handlerMethod($exception, $request);
             }
         }
 
         return $this->handleDefault($exception, $request);
     }
 
+    /**
+     * Handle a validation exception.
+     */
     private function handleValidationException(
         ValidationException $exception,
         Request $request
@@ -49,6 +52,9 @@ final class ApiExceptionHandler
         );
     }
 
+    /**
+     * Handle a base exception.
+     */
     private function handleBaseException(
         BaseException $exception,
         Request $request
@@ -60,6 +66,9 @@ final class ApiExceptionHandler
         );
     }
 
+    /**
+     * Handle a generic exception.
+     */
     private function handleDefault(
         Throwable $exception,
         Request $request

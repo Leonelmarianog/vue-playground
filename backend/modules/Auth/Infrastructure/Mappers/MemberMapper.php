@@ -8,7 +8,7 @@ use Modules\Auth\Infrastructure\Models\Member as MemberModel;
 class MemberMapper
 {
     /**
-     * Maps a MemberModel to a Member domain object.
+     * Map Eloquent Model to Domain Entity.
      */
     public static function toDomain(MemberModel $model): Member
     {

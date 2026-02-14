@@ -25,6 +25,9 @@ final class RegisterUserHandler
         private readonly TransactionInterface $transaction,
     ) {}
 
+    /**
+     * Handles the registration of a new user.
+     */
     public function handle(RegisterUserCommand $command): AuthenticatedUserDTO
     {
         $existingUser = $this->userRepository->findByEmail($command->email);
