@@ -2,41 +2,35 @@
 
 namespace Modules\Auth\Infrastructure\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use Modules\Auth\Application\Commands\RegisterUserCommand;
 use Modules\Auth\Application\Handlers\RegisterUserHandler;
-use Modules\Auth\Domain\Exceptions\UserAlreadyExistsException;
 use Modules\Auth\Infrastructure\Http\Requests\RegisterRequest;
 use Modules\Auth\Infrastructure\Http\Resources\MemberResource;
+use Modules\Core\Infrastructure\Http\Controllers\BaseController;
 
-final class AuthController extends Controller
+final class AuthController extends BaseController
 {
     public function __construct(private readonly RegisterUserHandler $registerUserHandler) {}
 
     public function register(RegisterRequest $request): JsonResponse
     {
-        try {
-            $command = new RegisterUserCommand(
-                firstName: $request->first_name,
-                lastName: $request->last_name,
-                email: $request->email,
-                password: $request->password,
-            );
+        $command = new RegisterUserCommand(
+            firstName: $request->first_name,
+            lastName: $request->last_name,
+            email: $request->email,
+            password: $request->password,
+        );
 
-            $authenticatedUser = $this->registerUserHandler->handle($command);
+        $authenticatedUser = $this->registerUserHandler->handle($command);
 
-            return response()->json([
-                'message' => 'Registration successful',
+        return $this->success(
+            'Registration successful',
+            201,
+            [
                 'token' => $authenticatedUser->token,
                 'member' => MemberResource::make($authenticatedUser->member),
-            ], 201);
-
-        } catch (UserAlreadyExistsException $e) {
-            return response()->json(['message' => $e->getMessage()], 409);
-        } catch (Exception $e) {
-            return response()->json(['message' => 'An error occurred during registration.'], 500);
-        }
+            ]
+        );
     }
 }

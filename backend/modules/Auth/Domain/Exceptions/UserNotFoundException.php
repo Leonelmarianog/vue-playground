@@ -2,12 +2,12 @@
 
 namespace Modules\Auth\Domain\Exceptions;
 
-use Exception;
+use Modules\Core\Domain\Exceptions\DomainException;
 
-class UserNotFoundException extends Exception
+class UserNotFoundException extends DomainException
 {
-    public function __construct(string $message = 'User not found.')
+    public function __construct($message = 'User not found.', $statusCode = 400)
     {
-        parent::__construct($message);
+        parent::__construct($message, $statusCode);
     }
 }
