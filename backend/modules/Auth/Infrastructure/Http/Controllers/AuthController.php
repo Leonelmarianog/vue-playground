@@ -3,14 +3,20 @@
 namespace Modules\Auth\Infrastructure\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Modules\Auth\Application\Commands\LoginUserCommand;
 use Modules\Auth\Application\Commands\RegisterUserCommand;
+use Modules\Auth\Application\Handlers\LoginUserHandler;
 use Modules\Auth\Application\Handlers\RegisterUserHandler;
+use Modules\Auth\Infrastructure\Http\Requests\LoginRequest;
 use Modules\Auth\Infrastructure\Http\Requests\RegisterRequest;
 use Modules\Core\Infrastructure\Http\Controllers\BaseController;
 
 final class AuthController extends BaseController
 {
-    public function __construct(private readonly RegisterUserHandler $registerUserHandler) {}
+    public function __construct(
+        private readonly RegisterUserHandler $registerUserHandler,
+        private readonly LoginUserHandler $loginUserHandler
+    ) {}
 
     /**
      * Register a new user.
@@ -27,11 +33,28 @@ final class AuthController extends BaseController
         $authenticatedUser = $this->registerUserHandler->handle($command);
 
         return $this->success(
-            'Registration successful',
-            201,
-            [
-                'token' => $authenticatedUser->token,
-            ]
+            message: 'Registration successful',
+            statusCode: 201,
+            data: ['token' => $authenticatedUser->token],
+        );
+    }
+
+    /**
+     * Log in a user.
+     */
+    public function login(LoginRequest $request)
+    {
+        $command = new LoginUserCommand(
+            email: $request->email,
+            password: $request->password,
+        );
+
+        $authenticatedUser = $this->loginUserHandler->handle($command);
+
+        return $this->success(
+            message: 'Login successful',
+            statusCode: 200,
+            data: ['token' => $authenticatedUser]
         );
     }
 }

@@ -12,6 +12,20 @@ final class EloquentMemberRepository implements MemberRepositoryInterface
     /**
      * {@inheritDoc}
      */
+    public function findByUserId(string $userId): ?Member
+    {
+        $memberModel = MemberModel::where('user_id', $userId)->first();
+
+        if (! $memberModel) {
+            return null;
+        }
+
+        return MemberMapper::toDomain($memberModel);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function store(Member $member): Member
     {
         $userModel = MemberModel::create([
