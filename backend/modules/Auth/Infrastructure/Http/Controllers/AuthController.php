@@ -6,7 +6,6 @@ use Illuminate\Http\JsonResponse;
 use Modules\Auth\Application\Commands\RegisterUserCommand;
 use Modules\Auth\Application\Handlers\RegisterUserHandler;
 use Modules\Auth\Infrastructure\Http\Requests\RegisterRequest;
-use Modules\Auth\Infrastructure\Http\Resources\MemberResource;
 use Modules\Core\Infrastructure\Http\Controllers\BaseController;
 
 final class AuthController extends BaseController
@@ -32,7 +31,6 @@ final class AuthController extends BaseController
             201,
             [
                 'token' => $authenticatedUser->token,
-                'member' => MemberResource::make($authenticatedUser->member),
             ]
         );
     }
