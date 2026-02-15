@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Auth\Infrastructure\Database\Factories;
+namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Modules\Auth\Infrastructure\Models\Member as MemberModel;
@@ -10,6 +10,7 @@ use Modules\Auth\Infrastructure\Models\Member as MemberModel;
  */
 class MemberFactory extends Factory
 {
+    /** Links to the model. */
     protected $model = MemberModel::class;
 
     /**

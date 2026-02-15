@@ -2,12 +2,12 @@
 
 namespace Modules\Auth\Infrastructure\Models;
 
+use Database\Factories\MemberFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Modules\Auth\Infrastructure\Database\Factories\MemberFactory;
 
 class Member extends Model
 {
@@ -28,6 +28,9 @@ class Member extends Model
         'bio',
     ];
 
+    /**
+     * Links to the factory for this model.
+     */
     protected static function newFactory(): MemberFactory
     {
         return MemberFactory::new();

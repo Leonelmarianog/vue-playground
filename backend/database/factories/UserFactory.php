@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Auth\Infrastructure\Database\Factories;
+namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
@@ -12,6 +12,7 @@ use Modules\Auth\Infrastructure\Models\User as UserModel;
  */
 class UserFactory extends Factory
 {
+    /** Links to the model. */
     protected $model = UserModel::class;
 
     /**

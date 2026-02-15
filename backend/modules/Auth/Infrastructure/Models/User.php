@@ -2,13 +2,13 @@
 
 namespace Modules\Auth\Infrastructure\Models;
 
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Modules\Auth\Infrastructure\Database\Factories\UserFactory;
 
 class User extends Authenticatable
 {
@@ -51,6 +51,9 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * Links to the factory for this model.
+     */
     protected static function newFactory(): UserFactory
     {
         return UserFactory::new();
