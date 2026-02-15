@@ -1,3 +1,5 @@
+.PHONY: build up stop down up-test down-test test-unit test-feature coverage
+
 build:
 	HOST_UID=$(shell id -u) HOST_GID=$(shell id -g) docker compose -f ./compose.yml build --no-cache --force-rm
 
