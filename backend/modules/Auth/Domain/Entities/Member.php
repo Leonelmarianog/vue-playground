@@ -3,7 +3,6 @@
 namespace Modules\Auth\Domain\Entities;
 
 use DateTimeImmutable;
-use Str;
 
 final class Member
 {
@@ -23,6 +22,7 @@ final class Member
      * Create a new Member instance.
      */
     public static function create(
+        string $id,
         string $userId,
         string $fullName,
         string $email,
@@ -30,7 +30,7 @@ final class Member
         ?string $bio = null,
     ): self {
         return new self(
-            id: Str::uuid()->toString(),
+            id: $id,
             userId: $userId,
             fullName: $fullName,
             email: $email,

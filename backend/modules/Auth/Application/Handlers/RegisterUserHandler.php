@@ -46,6 +46,7 @@ final class RegisterUserHandler
             ));
 
             $newMember = $this->memberRepository->store(Member::create(
+                id: $this->uuidGenerator->generate(),
                 userId: $newUser->id(),
                 fullName: $newUser->fullName(),
                 email: $newUser->email(),
