@@ -3,12 +3,16 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Auth\Infrastructure\Models\Member as MemberModel;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends Factory<MemberModel>
  */
 class MemberFactory extends Factory
 {
+    /** Links to the model. */
+    protected $model = MemberModel::class;
+
     /**
      * Define the model's default state.
      *
