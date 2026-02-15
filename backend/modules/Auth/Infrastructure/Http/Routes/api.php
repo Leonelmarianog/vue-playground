@@ -1,8 +1,0 @@
-<?php
-
-use Illuminate\Support\Facades\Route;
-use Modules\Auth\Infrastructure\Http\Controllers\AuthController;
-
-Route::prefix('auth')->group(function () {
-    Route::post('register', [AuthController::class, 'register']);
-});
