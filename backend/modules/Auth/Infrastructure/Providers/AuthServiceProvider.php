@@ -2,8 +2,8 @@
 
 namespace Modules\Auth\Infrastructure\Providers;
 
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\Auth\Application\Handlers\LoginUserHandler;
 use Modules\Auth\Application\Handlers\RegisterUserHandler;
 use Modules\Auth\Domain\Ports\AuthServiceInterface;
 use Modules\Auth\Domain\Ports\MemberRepositoryInterface;
@@ -47,6 +47,15 @@ class AuthServiceProvider extends ServiceProvider
                 );
             }
         );
+        $this->app->bind(
+            LoginUserHandler::class,
+            function ($app) {
+                return new LoginUserHandler(
+                    $app->make(MemberRepositoryInterface::class),
+                    $app->make(AuthServiceInterface::class),
+                );
+            }
+        );
     }
 
     /**
@@ -54,18 +63,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__.'/../Database/Migrations');
         $this->mergeConfigFrom(__DIR__.'/../../config.php', 'auth');
-        $this->registerRoutes();
-    }
-
-    /**
-     * Register the module routes.
-     */
-    protected function registerRoutes(): void
-    {
-        Route::prefix('api')
-            ->middleware('api')
-            ->group(__DIR__.'/../Http/Routes/api.php');
     }
 }

@@ -21,7 +21,10 @@ class MemberFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'full_name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'avatar_url' => $this->faker->optional(0.7)->imageUrl(),
+            'bio' => $this->faker->optional(0.7)->paragraph(),
         ];
     }
 }
