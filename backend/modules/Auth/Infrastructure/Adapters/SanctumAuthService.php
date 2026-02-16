@@ -2,7 +2,9 @@
 
 namespace Modules\Auth\Infrastructure\Adapters;
 
+use Exception;
 use Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 use Modules\Auth\Domain\Entities\User;
 use Modules\Auth\Domain\Exceptions\UserNotFoundException;
 use Modules\Auth\Domain\Ports\AuthServiceInterface;
@@ -52,5 +54,19 @@ final class SanctumAuthService implements AuthServiceInterface
         }
 
         return $userModel->createToken('auth_token')->plainTextToken;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function revokeToken(string $token): bool
+    {
+        try {
+            PersonalAccessToken::findToken($token)?->delete();
+
+            return true; // Consider this a success if the token was deleted or not found in the database.
+        } catch (Exception $exception) {
+            return false; // If there were any technical errors when attempting to revoke the token, consider this a failure.
+        }
     }
 }

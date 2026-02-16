@@ -20,4 +20,9 @@ interface AuthServiceInterface
      * Create a new authentication token for a user.
      */
     public function createToken(User $user): string;
+
+    /**
+     * Revoke the given token.
+     */
+    public function revokeToken(string $token): bool;
 }
