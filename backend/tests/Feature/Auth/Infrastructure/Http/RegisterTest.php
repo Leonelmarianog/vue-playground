@@ -32,7 +32,8 @@ describe('POST /api/auth/register', function () {
                     'success' => true,
                     'status' => 201,
                     'message' => 'Registration successful',
-                ]);
+                ])
+                ->assertJsonPath('data.token', fn (string $token) => strlen($token) > 0);
 
             $this->assertDatabaseHas('users', [
                 'email' => 'john@example.com',
