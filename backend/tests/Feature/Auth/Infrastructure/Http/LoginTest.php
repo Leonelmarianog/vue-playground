@@ -39,7 +39,8 @@ describe('POST /api/auth/login', function () {
                     'success' => true,
                     'status' => 200,
                     'message' => 'Login successful',
-                ]);
+                ])
+                ->assertJsonPath('data.token', fn (string $token) => strlen($token) > 0);
         });
     });
 

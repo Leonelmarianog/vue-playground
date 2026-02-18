@@ -65,7 +65,7 @@ final class AuthController extends BaseController
         return $this->success(
             message: 'Login successful',
             statusCode: 200,
-            data: ['token' => $authenticatedUser]
+            data: ['token' => $authenticatedUser->token]
         );
     }
 
