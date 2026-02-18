@@ -38,31 +38,25 @@ trait ApiResponses
         string $message,
         ?array $extra = []
     ): JsonResponse {
-        $errorData = $this->getErrorData($exception);
-        $debugData = $this->getDebugData($exception);
-
-        $error = [
-            'error' => [
-                ...$errorData,
-                ...$extra,
-            ],
-            ...($debugData ? [
-                'debug' => $debugData,
-            ] : []),
-        ];
-
         $response = [
             'success' => false,
             'status' => $statusCode,
             'message' => $message,
-            ...$error,
+            'error' => [
+                ...$this->getErrorData($exception),
+                ...$extra,
+            ],
         ];
+
+        if (config('app.debug')) {
+            $response['debug'] = $this->getDebugData($exception);
+        }
 
         return response()->json($response, $statusCode);
     }
 
     /**
-     * Return specific error data for the HTTP response.
+     * Return specific error data from a given exception.
      *
      * @return array<string, string|int>
      */
