@@ -6,9 +6,10 @@ parameters:
 
     paths:
         - app/
+        - modules/
 
     # Level 10 is the highest level
-    level: 10
+    level: 6
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'
