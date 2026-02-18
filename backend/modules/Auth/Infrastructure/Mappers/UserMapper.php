@@ -5,7 +5,7 @@ namespace Modules\Auth\Infrastructure\Mappers;
 use Modules\Auth\Domain\Entities\User;
 use Modules\Auth\Infrastructure\Models\User as UserModel;
 
-class UserMapper
+final class UserMapper
 {
     /**
      * Map Eloquent Model to Domain Entity.
