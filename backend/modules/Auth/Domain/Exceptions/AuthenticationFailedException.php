@@ -6,7 +6,7 @@ use Modules\Core\Domain\Exceptions\DomainException;
 
 class AuthenticationFailedException extends DomainException
 {
-    public function __construct($message = 'Authentication failed.', $statusCode = 401)
+    public function __construct(string $message = 'Authentication failed.', int $statusCode = 401)
     {
         parent::__construct($message, $statusCode);
     }

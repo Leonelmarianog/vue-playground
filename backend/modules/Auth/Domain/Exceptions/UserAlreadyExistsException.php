@@ -6,7 +6,7 @@ use Modules\Core\Domain\Exceptions\DomainException;
 
 class UserAlreadyExistsException extends DomainException
 {
-    public function __construct($message = 'User already exists.', $statusCode = 400)
+    public function __construct(string $message = 'User already exists.', int $statusCode = 400)
     {
         parent::__construct($message, $statusCode);
     }
