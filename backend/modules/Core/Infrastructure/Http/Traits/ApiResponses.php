@@ -93,9 +93,9 @@ trait ApiResponses
             'line' => $exception->getLine(),
             'trace' => collect($exception->getTrace())->take(10)->map(function ($trace) {
                 return [
-                    'file' => $trace['file'] ?? 'internal',
-                    'line' => $trace['line'] ?? 'n/a',
-                    'function' => $trace['function'] ?? 'n/a',
+                    'file' => $trace['file'],
+                    'line' => $trace['line'],
+                    'function' => $trace['function'],
                 ];
             })->toArray(),
         ];
