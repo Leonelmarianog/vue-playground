@@ -4,7 +4,7 @@ namespace Modules\Auth\Domain\Exceptions;
 
 use Modules\Core\Domain\Exceptions\DomainException;
 
-class AuthenticationFailedException extends DomainException
+final class AuthenticationFailedException extends DomainException
 {
     public function __construct(string $message = 'Authentication failed.', int $statusCode = 401)
     {
