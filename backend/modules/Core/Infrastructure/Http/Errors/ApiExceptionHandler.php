@@ -15,6 +15,8 @@ final class ApiExceptionHandler
 
     /**
      * Map of exception classes to their handler methods.
+     *
+     * @var array<string, string>
      */
     private array $handlers = [
         ValidationException::class => 'handleValidationException',
