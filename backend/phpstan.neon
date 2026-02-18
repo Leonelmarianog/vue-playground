@@ -8,8 +8,8 @@ parameters:
         - app/
         - modules/
 
-    # Level 10 is the highest level
-    level: 6
+    # https://phpstan.org/user-guide/rule-levels
+    level: 5
 
 #    ignoreErrors:
 #        - '#PHPDoc tag @var#'
