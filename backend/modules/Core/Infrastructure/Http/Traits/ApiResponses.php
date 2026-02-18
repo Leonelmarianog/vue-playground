@@ -9,6 +9,8 @@ trait ApiResponses
 {
     /**
      * Return an HTTP success response.
+     *
+     * @param  array<mixed>  $data
      */
     public function success(
         string $message,
@@ -27,6 +29,8 @@ trait ApiResponses
 
     /**
      * Return an HTTP error response.
+     *
+     * @param  array<mixed>  $extra
      */
     public function error(
         Throwable $exception,
@@ -34,39 +38,27 @@ trait ApiResponses
         string $message,
         ?array $extra = []
     ): JsonResponse {
-        $errorData = $this->getErrorData($exception);
-        $debugData = $this->getDebugData($exception);
-
-        $error = [
-            'error' => [
-                ...$errorData,
-                ...$extra,
-            ],
-            ...($debugData ? [
-                'debug' => $debugData,
-            ] : []),
-        ];
-
         $response = [
             'success' => false,
             'status' => $statusCode,
             'message' => $message,
-            ...$error,
+            'error' => [
+                ...$this->getErrorData($exception),
+                ...$extra,
+            ],
         ];
+
+        if (config('app.debug')) {
+            $response['debug'] = $this->getDebugData($exception);
+        }
 
         return response()->json($response, $statusCode);
     }
 
     /**
-     * Return the type of the exception, e.g. "NotFoundHttpException"
-     */
-    private function getExceptionType(Throwable $exception): string
-    {
-        return basename(str_replace('\\', '/', get_class($exception)));
-    }
-
-    /**
-     * Return specific error data for the HTTP response.
+     * Return specific error data from a given exception.
+     *
+     * @return array<string, string|int>
      */
     private function getErrorData(Throwable $exception): array
     {
@@ -79,25 +71,37 @@ trait ApiResponses
     }
 
     /**
-     * Return specific debug data for the HTTP response.
+     * Return specific debug data from a given exception.
+     *
+     * @return array<string, string|int|array<int, array<string, string|int>>>
      */
     private function getDebugData(Throwable $exception): array
     {
-        if (! config('app.debug')) {
-            return [];
-        }
-
         return [
             'exception' => get_class($exception),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
-            'trace' => collect($exception->getTrace())->take(10)->map(function ($trace) {
-                return [
-                    'file' => $trace['file'] ?? 'internal',
-                    'line' => $trace['line'] ?? 'n/a',
-                    'function' => $trace['function'] ?? 'n/a',
-                ];
-            })->toArray(),
+            'trace' => $this->getExceptionTraces($exception),
         ];
+    }
+
+    /**
+     * Return the type of the exception, e.g. "NotFoundHttpException"
+     */
+    private function getExceptionType(Throwable $exception): string
+    {
+        return basename(str_replace('\\', '/', get_class($exception)));
+    }
+
+    /**
+     * Return the stack trace of the exception.
+     *
+     * @return array<int, array<string, string|int>>
+     */
+    private function getExceptionTraces(Throwable $exception): array
+    {
+        return collect($exception->getTrace())
+            ->take(10)
+            ->toArray();
     }
 }

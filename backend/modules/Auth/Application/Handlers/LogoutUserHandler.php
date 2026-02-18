@@ -10,6 +10,11 @@ final readonly class LogoutUserHandler
 {
     public function __construct(private AuthServiceInterface $authService) {}
 
+    /**
+     * Handle the logout of a user.
+     *
+     * @throws LogoutFailedException
+     */
     public function handle(LogoutUserCommand $command): void
     {
         $isTokenRevoked = $this->authService->revokeToken($command->bearerToken);

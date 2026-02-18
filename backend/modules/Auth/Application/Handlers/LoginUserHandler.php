@@ -8,15 +8,17 @@ use Modules\Auth\Domain\Exceptions\AuthenticationFailedException;
 use Modules\Auth\Domain\Ports\AuthServiceInterface;
 use Modules\Auth\Domain\Ports\MemberRepositoryInterface;
 
-final class LoginUserHandler
+final readonly class LoginUserHandler
 {
     public function __construct(
-        private readonly MemberRepositoryInterface $memberRepository,
-        private readonly AuthServiceInterface $authService
+        private MemberRepositoryInterface $memberRepository,
+        private AuthServiceInterface $authService
     ) {}
 
     /**
-     * Handles the login of a user.
+     * Handle the login of a user.
+     *
+     * @throws AuthenticationFailedException
      */
     public function handle(LoginUserCommand $command): AuthenticatedUserDTO
     {

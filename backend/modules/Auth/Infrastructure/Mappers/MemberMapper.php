@@ -5,7 +5,7 @@ namespace Modules\Auth\Infrastructure\Mappers;
 use Modules\Auth\Domain\Entities\Member;
 use Modules\Auth\Infrastructure\Models\Member as MemberModel;
 
-class MemberMapper
+final class MemberMapper
 {
     /**
      * Map Eloquent Model to Domain Entity.

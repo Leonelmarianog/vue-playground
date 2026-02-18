@@ -5,7 +5,7 @@ namespace Modules\Auth\Infrastructure\Mappers;
 use Modules\Auth\Domain\Entities\User;
 use Modules\Auth\Infrastructure\Models\User as UserModel;
 
-class UserMapper
+final class UserMapper
 {
     /**
      * Map Eloquent Model to Domain Entity.
@@ -18,7 +18,8 @@ class UserMapper
             lastName: $model->last_name,
             email: $model->email,
             password: $model->password,
-            emailVerifiedAt: $model->email_verified_at?->toDateTimeImmutable(),
+            /** @phpstan-ignore-next-line  */
+            emailVerifiedAt: $model->email_verified_at?->toDateTimeImmutable(), // TODO: Figure out why PHPStan infers email_verified_at as string.
             createdAt: $model->created_at?->toDateTimeImmutable(),
             updatedAt: $model->updated_at?->toDateTimeImmutable(),
             deletedAt: $model->deleted_at?->toDateTimeImmutable()
