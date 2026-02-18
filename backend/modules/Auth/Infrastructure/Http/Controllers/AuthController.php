@@ -10,6 +10,9 @@ use Modules\Auth\Application\Commands\RegisterUserCommand;
 use Modules\Auth\Application\Handlers\LoginUserHandler;
 use Modules\Auth\Application\Handlers\LogoutUserHandler;
 use Modules\Auth\Application\Handlers\RegisterUserHandler;
+use Modules\Auth\Domain\Exceptions\AuthenticationFailedException;
+use Modules\Auth\Domain\Exceptions\LogoutFailedException;
+use Modules\Auth\Domain\Exceptions\UserAlreadyExistsException;
 use Modules\Auth\Infrastructure\Http\Requests\LoginRequest;
 use Modules\Auth\Infrastructure\Http\Requests\RegisterRequest;
 use Modules\Core\Infrastructure\Http\Controllers\BaseController;
@@ -24,6 +27,8 @@ final class AuthController extends BaseController
 
     /**
      * Register a new user.
+     *
+     * @throws UserAlreadyExistsException
      */
     public function register(RegisterRequest $request): JsonResponse
     {
@@ -45,8 +50,10 @@ final class AuthController extends BaseController
 
     /**
      * Log in a user.
+     *
+     * @throws AuthenticationFailedException
      */
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         $command = new LoginUserCommand(
             email: $request->email,
@@ -62,7 +69,11 @@ final class AuthController extends BaseController
         );
     }
 
-    /** Log out a user */
+    /**
+     * Log out a user.
+     *
+     * @throws LogoutFailedException
+     */
     public function logout(Request $request): JsonResponse
     {
         $command = new LogoutUserCommand(
