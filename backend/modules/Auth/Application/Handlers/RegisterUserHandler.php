@@ -14,19 +14,21 @@ use Modules\Auth\Domain\Ports\TransactionInterface;
 use Modules\Auth\Domain\Ports\UserRepositoryInterface;
 use Modules\Auth\Domain\Ports\UuidGeneratorInterface;
 
-final class RegisterUserHandler
+final readonly class RegisterUserHandler
 {
     public function __construct(
-        private readonly UserRepositoryInterface $userRepository,
-        private readonly MemberRepositoryInterface $memberRepository,
-        private readonly PasswordHasherInterface $passwordHasher,
-        private readonly UuidGeneratorInterface $uuidGenerator,
-        private readonly AuthServiceInterface $authService,
-        private readonly TransactionInterface $transaction,
+        private UserRepositoryInterface $userRepository,
+        private MemberRepositoryInterface $memberRepository,
+        private PasswordHasherInterface $passwordHasher,
+        private UuidGeneratorInterface $uuidGenerator,
+        private AuthServiceInterface $authService,
+        private TransactionInterface $transaction,
     ) {}
 
     /**
-     * Handles the registration of a new user.
+     * Handle the registration of a new user.
+     *
+     * @throws UserAlreadyExistsException
      */
     public function handle(RegisterUserCommand $command): AuthenticatedUserDTO
     {
