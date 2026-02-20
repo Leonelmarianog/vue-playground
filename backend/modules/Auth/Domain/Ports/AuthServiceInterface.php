@@ -38,4 +38,11 @@ interface AuthServiceInterface
      * @return bool True if the token was successfully revoked, false otherwise.
      */
     public function revokeToken(string $token): bool;
+
+    /**
+     * Get the currently authenticated user.
+     *
+     * @return User|null The authenticated user.
+     */
+    public function getCurrentUser(): ?User;
 }
