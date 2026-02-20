@@ -4,6 +4,7 @@ namespace Modules\Auth\Infrastructure\Adapters;
 
 use Exception;
 use Hash;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 use Modules\Auth\Domain\Entities\User;
 use Modules\Auth\Domain\Exceptions\UserNotFoundException;
@@ -68,5 +69,19 @@ final class SanctumAuthService implements AuthServiceInterface
         } catch (Exception $exception) {
             return false; // If there were any technical errors when attempting to revoke the token, consider this a failure.
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCurrentUser(): ?User
+    {
+        $currentUser = Auth::user();
+
+        if (! $currentUser) {
+            return null;
+        }
+
+        return UserMapper::toDomain($currentUser);
     }
 }
